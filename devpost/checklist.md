@@ -11,7 +11,7 @@ Build mode: fast — пользователь согласовал порядо�
 
 ## Slices
 
-- [ ] **1. Можно создать хакатон и вернуться к нему**
+- [x] **1. Можно создать хакатон и вернуться к нему**
   Becomes usable: Работающая стартовая форма под Build your MVP / Создай свой MVP. После ввода названия и даты виден обзор; хакатон и выбранный язык остаются после повторного открытия по тому же адресу.
   Why now: Сразу даёт проверяемый результат и раннюю обратную связь по дизайну. Включает запуск и риск сохранения в браузере, чтобы последующие задачи опирались на работающую страницу.
   PRD ref: `prd.md > The Core Journey` (шаги 1–3, 6–7), `prd.md > Hackathon Setup`, `prd.md > Returning to Preparation`, `prd.md > Interface Language`, `prd.md > Proposed Defaults for Review > Input and Corrections`, `prd.md > Proposed Defaults for Review > Saving and Returning`.
