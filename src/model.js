@@ -63,3 +63,19 @@ export function addNews(data, { title, url }, id = crypto.randomUUID()) {
   const item = { id, title: title.trim(), url: new URL(url).href };
   return { ok: true, data: { ...data, news: [...data.news, item] } };
 }
+
+export function updateTask(data,id,{title,assignee=''}) {
+  if(!nonempty(title)) return {ok:false,errors:{title:'taskTitleRequired'}};
+  return {ok:true,data:{...data,tasks:data.tasks.map(task=>task.id===id ? {...task,title:title.trim(),assignee:String(assignee).trim()} : task)}};
+}
+
+export function updateNews(data,id,{title,url}) {
+  const errors={};
+  if(!nonempty(title)) errors.title='newsTitleRequired';
+  if(!isWebUrl(url)) errors.url='urlInvalid';
+  if(Object.keys(errors).length) return {ok:false,errors};
+  return {ok:true,data:{...data,news:data.news.map(item=>item.id===id ? {...item,title:title.trim(),url:new URL(url).href} : item)}};
+}
+
+export function removeTask(data,id) { return {...data,tasks:data.tasks.filter(task=>task.id!==id)}; }
+export function removeNews(data,id) { return {...data,news:data.news.filter(item=>item.id!==id)}; }

@@ -18,7 +18,9 @@ const messages = {
     newsHeading: 'News & useful links', newsCaption: 'Keep the important things close.', newsTitle: 'News title', newsLink: 'Link',
     newsPlaceholder: 'e.g. Submission requirements', urlPlaceholder: 'https://…', addNews: 'Add news', noNews: 'No updates yet', noNewsHint: 'Save an important update and its source above.', opensNewTab: 'opens in a new tab',
     taskTitleRequired: 'Give this task a name.', newsTitleRequired: 'Add a title for this update.', urlInvalid: 'Enter a full website link starting with https:// or http://.',
-    taskAdded: 'Task added.', newsAdded: 'News added.', completionUpdated: 'Task and preparation progress updated.'
+    taskAdded: 'Task added.', newsAdded: 'News added.', completionUpdated: 'Task and preparation progress updated.',
+    edit: 'Edit', delete: 'Delete', saveChanges: 'Save changes', cancel: 'Cancel', editHackathon: 'Edit hackathon', editTask: 'Edit task', editNews: 'Edit news', deleteTask: 'Delete task', deleteNews: 'Delete news',
+    taskUpdated: 'Task updated.', newsUpdated: 'News updated.', hackathonUpdated: 'Hackathon updated.', taskDeleted: 'Task deleted. Preparation progress updated.', newsDeleted: 'News deleted.'
   },
   ru: {
     languageLabel: 'Язык интерфейса', eyebrow: 'Немного порядка. Уверенный старт.', titlePrefix: 'Создай свой',
@@ -39,7 +41,9 @@ const messages = {
     newsHeading: 'Новости и полезные ссылки', newsCaption: 'Самое важное — под рукой.', newsTitle: 'Заголовок новости', newsLink: 'Ссылка',
     newsPlaceholder: 'Например, требования к заявке', urlPlaceholder: 'https://…', addNews: 'Добавить новость', noNews: 'Пока нет новостей', noNewsHint: 'Сохрани важное обновление и ссылку на источник в форме выше.', opensNewTab: 'откроется в новой вкладке',
     taskTitleRequired: 'Введи название задачи.', newsTitleRequired: 'Введи заголовок новости.', urlInvalid: 'Введи полную ссылку на сайт, начиная с https:// или http://.',
-    taskAdded: 'Задача добавлена.', newsAdded: 'Новость добавлена.', completionUpdated: 'Задача и прогресс подготовки обновлены.'
+    taskAdded: 'Задача добавлена.', newsAdded: 'Новость добавлена.', completionUpdated: 'Задача и прогресс подготовки обновлены.',
+    edit: 'Изменить', delete: 'Удалить', saveChanges: 'Сохранить изменения', cancel: 'Отмена', editHackathon: 'Изменить хакатон', editTask: 'Изменить задачу', editNews: 'Изменить новость', deleteTask: 'Удалить задачу', deleteNews: 'Удалить новость',
+    taskUpdated: 'Задача обновлена.', newsUpdated: 'Новость обновлена.', hackathonUpdated: 'Хакатон обновлён.', taskDeleted: 'Задача удалена. Прогресс подготовки обновлён.', newsDeleted: 'Новость удалена.'
   }
 };
 

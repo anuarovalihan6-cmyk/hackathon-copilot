@@ -1,4 +1,4 @@
-import { initialData, createHackathon, addTask, addNews, setTaskCompleted } from './model.js';
+import { initialData, createHackathon, addTask, addNews, setTaskCompleted, updateTask, updateNews, removeTask, removeNews } from './model.js';
 import { createStorage } from './storage.js';
 import { preferredLanguage } from './i18n.js';
 import { createUI } from './ui.js';
@@ -34,6 +34,23 @@ document.getElementById('task-list').addEventListener('change',event=>{
   if(!event.target.matches('[data-task-toggle]')) return;
   data=setTaskCompleted(data,event.target.dataset.taskToggle,event.target.checked);
   saveAndRender(); ui.announce(data.language,'completionUpdated');
+});
+
+const overview=document.getElementById('overview');
+overview.addEventListener('click',event=>{
+  const button=event.target.closest('button[data-action]'); if(!button) return;
+  const {action,kind}=button.dataset;const id=button.dataset.id ?? 'hackathon';
+  if(action==='edit') {const record=kind==='hackathon'?data.hackathon:(kind==='task'?data.tasks:data.news).find(item=>item.id===id);ui.beginEdit(kind,id,record,data.language);}
+  if(action==='cancel') ui.endEdit(kind,id);
+  if(action==='delete') {ui.endEdit(kind,id,false);data=kind==='task'?removeTask(data,id):removeNews(data,id);saveAndRender();ui.focusList(kind);ui.announce(data.language,kind==='task'?'taskDeleted':'newsDeleted');}
+});
+overview.addEventListener('input',event=>{const form=event.target.closest('form[data-editor-kind]');if(form)ui.clearFieldError(form.id,event.target.name,data.language);});
+overview.addEventListener('submit',event=>{
+  const form=event.target.closest('form[data-editor-kind]');if(!form)return;event.preventDefault();
+  const kind=form.dataset.editorKind;const id=form.dataset.recordId;const fields=Object.fromEntries(new FormData(form));
+  const result=kind==='task'?updateTask(data,id,fields):kind==='news'?updateNews(data,id,fields):createHackathon(data,fields);
+  if(!result.ok){ui.showErrors(form.id,data.language,result.errors);ui.focusFirstError(form.id,result.errors);return;}
+  ui.endEdit(kind,id,false);data=result.data;saveAndRender();ui.focusEditButton(kind,id);ui.announce(data.language,kind==='task'?'taskUpdated':kind==='news'?'newsUpdated':'hackathonUpdated');
 });
 
 document.querySelectorAll('[data-language]').forEach(button => {
