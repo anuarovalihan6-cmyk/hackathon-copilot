@@ -1,4 +1,4 @@
-import { initialData, createHackathon, addTask, addNews, setTaskCompleted, updateTask, updateNews, removeTask, removeNews } from './model.js';
+import { initialData, createHackathon, addTask, addNews, setTaskCompleted, updateTask, updateNews, removeTask, removeNews, addStarterPlan, nextPreparationStep } from './model.js';
 import { createStorage } from './storage.js';
 import { preferredLanguage } from './i18n.js';
 import { createUI } from './ui.js';
@@ -60,4 +60,19 @@ document.querySelectorAll('[data-language]').forEach(button => {
   });
 });
 
+document.getElementById('add-starter-plan').addEventListener('click', () => {
+  data = addStarterPlan(data);
+  saveAndRender();
+  ui.announce(data.language, 'planAddedMessage');
+  ui.focusGuide();
+});
+document.getElementById('go-to-task').addEventListener('click', () => {
+  const next = nextPreparationStep(data.tasks);
+  if (next) ui.focusTask(next.task.id);
+});
+
 ui.render(data, storageStatus);
+window.setInterval(() => ui.renderCountdown(data), 60_000);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) ui.renderCountdown(data);
+});

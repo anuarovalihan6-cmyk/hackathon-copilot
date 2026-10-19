@@ -1,3 +1,47 @@
+import { translate } from './i18n.js';
+
+export const STARTER_PLAN = [
+  { id: 'starter-plan:idea', titleKey: 'planIdea', hintKey: 'planIdeaHint' },
+  { id: 'starter-plan:mvp', titleKey: 'planMvp', hintKey: 'planMvpHint' },
+  { id: 'starter-plan:test', titleKey: 'planTest', hintKey: 'planTestHint' },
+  { id: 'starter-plan:github', titleKey: 'planGithub', hintKey: 'planGithubHint' },
+  { id: 'starter-plan:video', titleKey: 'planVideo', hintKey: 'planVideoHint' },
+  { id: 'starter-plan:submit', titleKey: 'planSubmit', hintKey: 'planSubmitHint' }
+];
+
+export function starterPlanCount(tasks) {
+  return STARTER_PLAN.filter(step => tasks.some(task => task.id === step.id)).length;
+}
+
+export function addStarterPlan(data) {
+  if (!data.hackathon) return data;
+  const missing = STARTER_PLAN.filter(step => !data.tasks.some(task => task.id === step.id));
+  if (!missing.length) return data;
+  return { ...data, tasks: [...data.tasks, ...missing.map(step => ({
+    id: step.id, title: translate(data.language, step.titleKey), assignee: '', completed: false
+  }))] };
+}
+
+export function nextPreparationStep(tasks) {
+  const task = tasks.find(item => !item.completed);
+  if (!task) return null;
+  const step = STARTER_PLAN.find(item => item.id === task.id &&
+    ['en', 'ru'].some(language => task.title === translate(language, item.titleKey)));
+  return { task, hintKey: step?.hintKey ?? 'customTaskHint' };
+}
+
+export function daysUntilDeadline(deadline, now = new Date()) {
+  if (!isCalendarDate(deadline)) return null;
+  const midnight = (year, month, day) => {
+    const date = new Date(0);
+    date.setUTCFullYear(year, month - 1, day);
+    date.setUTCHours(0, 0, 0, 0);
+    return date.getTime();
+  };
+  const [year, month, day] = deadline.split('-').map(Number);
+  return Math.round((midnight(year, month, day) - midnight(now.getFullYear(), now.getMonth() + 1, now.getDate())) / 86_400_000);
+}
+
 export function initialData(language = 'en') {
   return { version: 1, language: language === 'ru' ? 'ru' : 'en', hackathon: null, tasks: [], news: [] };
 }

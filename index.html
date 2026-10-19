@@ -35,8 +35,25 @@
 
       <section id="overview" class="overview" aria-labelledby="hackathon-title" hidden>
         <div class="overview-intro"><p class="eyebrow"><span class="small-line" aria-hidden="true"></span><span data-i18n="overviewEyebrow">Your next launch</span></p><h1 id="hackathon-title" tabindex="-1"></h1><div class="overview-subline"><p class="intro-copy" data-i18n="overviewIntro">Your preparation, in one place.</p><button id="edit-hackathon" class="secondary-button" type="button" data-action="edit" data-kind="hackathon" data-i18n="editHackathon">Edit hackathon</button></div><div id="hackathon-editor-slot"></div></div>
-        <div class="summary-card"><div class="deadline-block"><span class="data-label" data-i18n="dateLabel">Deadline</span><time id="deadline-value"></time></div><div class="progress-block"><div class="progress-heading"><span class="data-label" data-i18n="progressLabel">Preparation progress</span><strong id="progress-value">0%</strong></div><div class="progress-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-i18n-aria="progressLabel" aria-label="Preparation progress"><span class="progress-fill"></span></div><p id="progress-count" class="progress-count"></p></div></div>
+        <div class="summary-card">
+          <div class="deadline-block"><span class="data-label" data-i18n="dateLabel">Deadline</span><time id="deadline-value"></time><span id="deadline-countdown" class="deadline-countdown"></span></div>
+          <div class="progress-block"><div class="progress-heading"><span class="data-label" data-i18n="progressLabel">Preparation progress</span><strong id="progress-value">0%</strong></div><div class="progress-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-i18n-aria="progressLabel" aria-label="Preparation progress"><span class="progress-fill"></span></div><p id="progress-count" class="progress-count"></p></div>
+        </div>
         <p class="saved-caption"><span class="status-dot" aria-hidden="true"></span><span id="saved-caption"></span></p>
+        <section class="preparation-guide" aria-label="Preparation guide" data-i18n-aria="guideLabel">
+          <div class="guide-card plan-card">
+            <p class="guide-eyebrow"><span aria-hidden="true">✦</span><span data-i18n="planEyebrow">A clear way forward</span></p>
+            <h2 data-i18n="planHeading">From idea to submission</h2>
+            <p id="plan-description" class="guide-copy"></p>
+            <button id="add-starter-plan" class="primary-button guide-button" type="button" aria-describedby="plan-description">Add starter plan</button>
+          </div>
+          <div class="guide-card next-card">
+            <p class="guide-eyebrow"><span class="status-dot" aria-hidden="true"></span><span data-i18n="nextStepLabel">Your next step</span></p>
+            <h2 id="next-step-title" tabindex="-1"></h2>
+            <p id="next-step-hint" class="guide-copy"></p>
+            <button id="go-to-task" class="secondary-button guide-button" type="button" data-i18n="goToTask">Go to task ↗</button>
+          </div>
+        </section>
         <div id="workspace" class="workspace">
           <section class="work-section" aria-labelledby="tasks-heading">
             <div class="section-header"><div class="section-title"><span class="section-number" aria-hidden="true">01</span><h2 id="tasks-heading" data-i18n="tasksHeading">Your next steps</h2><span id="task-count" class="section-count">0</span></div><p class="section-caption" data-i18n="tasksCaption">Small steps, real progress.</p></div>

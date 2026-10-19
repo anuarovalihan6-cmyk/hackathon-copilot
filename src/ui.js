@@ -1,5 +1,5 @@
-import { translate } from './i18n.js';
-import { preparationProgress } from './model.js';
+import { translate, deadlineLabel } from './i18n.js';
+import { preparationProgress, starterPlanCount, STARTER_PLAN, nextPreparationStep, daysUntilDeadline } from './model.js';
 
 export function createUI(document) {
   const find = id => document.getElementById(id);
@@ -99,6 +99,26 @@ export function createUI(document) {
     find('news-empty').hidden=data.news.length>0; find('news-count').textContent=String(data.news.length);
   }
 
+  function renderGuide(data, t) {
+    const count = starterPlanCount(data.tasks);
+    const ready = count === STARTER_PLAN.length;
+    find('add-starter-plan').disabled = ready;
+    find('add-starter-plan').textContent = t(ready ? 'starterPlanAdded' : count ? 'restoreStarterPlan' : 'addStarterPlan');
+    find('plan-description').textContent = t(ready ? 'planReadyDescription' : count ? 'planRestoreDescription' : 'planDescription');
+    const next = nextPreparationStep(data.tasks);
+    find('next-step-title').textContent = next ? next.task.title : t(data.tasks.length ? 'nextDoneTitle' : 'nextEmptyTitle');
+    find('next-step-hint').textContent = t(next ? next.hintKey : data.tasks.length ? 'nextDoneHint' : 'nextEmptyHint');
+    find('go-to-task').hidden = !next;
+  }
+
+  function renderCountdown(data) {
+    if (!data.hackathon) return;
+    const days = daysUntilDeadline(data.hackathon.deadline);
+    find('deadline-countdown').textContent = deadlineLabel(data.language, days);
+    find('deadline-countdown').title = translate(data.language, 'deadlineCalendarNote');
+    find('deadline-countdown').classList.toggle('is-past', days < 0);
+  }
+
   return {
     render(data, storageStatus) {
       const t = (key, values) => translate(data.language, key, values);
@@ -125,12 +145,21 @@ export function createUI(document) {
         find('progress-count').textContent = t('progressCount', progress);
         find('progress-track').setAttribute('aria-valuenow', String(progress.percent));
         find('progress-track').querySelector('.progress-fill').style.transform = `scaleX(${progress.total ? progress.done / progress.total : 0})`;
-        renderTasks(data,t); renderNews(data,t);
+        renderTasks(data,t); renderNews(data,t); renderGuide(data,t); renderCountdown(data);
       }
       for(const [formId,errors] of errorsByForm) showErrors(formId,data.language,errors);
     },
     showErrors,
     beginEdit,endEdit,
+    renderCountdown,
+    focusGuide() { find('next-step-title').focus(); },
+    focusTask(id) {
+      const checkbox = taskRows.get(id)?.checkbox;
+      if (!checkbox) return;
+      const reduceMotion = document.defaultView.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      checkbox.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'instant' : 'smooth' });
+      checkbox.focus({ preventScroll: true });
+    },
     focusEditButton(kind,id) {const row=rowFor(kind,id);(row?.editButton ?? row?.actions.edit)?.focus();},
     focusList(kind) {const list=find(kind==='task'?'task-list':'news-list');(list.querySelector('input,a,button') ?? find(kind==='task'?'task-title':'news-title')).focus();},
     clearFieldError(formId,name,language) { const errors={...errorsByForm.get(formId)}; delete errors[name]; showErrors(formId,language,errors); },
