@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { initialData, createHackathon, addTask, addNews, setTaskCompleted, updateTask, removeTask,
-  addStarterPlan, starterPlanCount, nextPreparationStep, daysUntilDeadline, preparationProgress, isSnapshot } from '../src/model.js';
+  addStarterPlan, starterPlanCount, nextPreparationStep, daysUntilDeadline, preparationProgress, isSnapshot, taskDisplayTitle } from '../src/model.js';
 import { deadlineLabel } from '../src/i18n.js';
 
 const base = language => createHackathon(initialData(language), { name: 'Demo', deadline: '2026-10-26' }).data;
@@ -55,6 +55,35 @@ test('restoring a missing starter step is explicit and keeps the other five edit
   assert.equal(restored.tasks.at(-1).title, 'Проверить приложение');
   assert.equal(restored.tasks[0].completed, true);
   assert.equal(addStarterPlan(restored).tasks.length, 6);
+});
+
+test('existing Russian starter tasks display in English after switching and reopening without changing saved task data', () => {
+  let data = addStarterPlan(base('ru'));
+  data = setTaskCompleted(data, data.tasks[1].id, true);
+  data = updateTask(data, data.tasks[0].id, { title: data.tasks[0].title, assignee: 'Alex' }).data;
+  const before = JSON.stringify(data.tasks);
+  const restored = JSON.parse(JSON.stringify({ ...data, language: 'en' }));
+  assert.deepEqual(restored.tasks.map(task => taskDisplayTitle(task, restored.language)), [
+    'Clarify the idea', 'Build the MVP', 'Test the app', 'Prepare the GitHub repository', 'Record the demo video', 'Submit the project'
+  ]);
+  assert.equal(taskDisplayTitle(nextPreparationStep(restored.tasks).task, 'en'), 'Clarify the idea');
+  assert.equal(taskDisplayTitle(restored.tasks[0], 'ru'), 'Уточнить идею');
+  assert.equal(JSON.stringify(restored.tasks), before);
+  assert.equal(starterPlanCount(addStarterPlan(restored).tasks), 6);
+});
+
+test('English starter titles translate to Russian while manual and renamed tasks retain their exact text', () => {
+  let data = addStarterPlan(base('en'));
+  assert.equal(taskDisplayTitle(data.tasks[0], 'ru'), 'Уточнить идею');
+  data = updateTask(data, data.tasks[0].id, { title: 'подготовить видео', assignee: 'Анна' }).data;
+  assert.equal(taskDisplayTitle(data.tasks[0], 'en'), 'подготовить видео');
+  assert.equal(data.tasks[0].assignee, 'Анна');
+  const manual = { id: 'manual', title: 'Уточнить идею', assignee: '', completed: false };
+  assert.equal(taskDisplayTitle(manual, 'en'), 'Уточнить идею');
+  // Saving only an assignee from the English editor keeps the task translatable.
+  const assigned = updateTask(data, data.tasks[1].id, { title: taskDisplayTitle(data.tasks[1], 'en'), assignee: 'Alex' }).data;
+  assert.equal(taskDisplayTitle(assigned.tasks[1], 'ru'), 'Собрать MVP');
+  assert.equal(isSnapshot(assigned), true);
 });
 
 test('next step follows actual list order, edits, deletion, completion and reopening a completed step', () => {

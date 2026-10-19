@@ -22,11 +22,20 @@ export function addStarterPlan(data) {
   }))] };
 }
 
+function starterStepForTask(task) {
+  return STARTER_PLAN.find(item => item.id === task.id &&
+    ['en', 'ru'].some(language => task.title === translate(language, item.titleKey)));
+}
+
+export function taskDisplayTitle(task, language) {
+  const step = starterStepForTask(task);
+  return step ? translate(language, step.titleKey) : task.title;
+}
+
 export function nextPreparationStep(tasks) {
   const task = tasks.find(item => !item.completed);
   if (!task) return null;
-  const step = STARTER_PLAN.find(item => item.id === task.id &&
-    ['en', 'ru'].some(language => task.title === translate(language, item.titleKey)));
+  const step = starterStepForTask(task);
   return { task, hintKey: step?.hintKey ?? 'customTaskHint' };
 }
 

@@ -1,5 +1,5 @@
 import { translate, deadlineLabel } from './i18n.js';
-import { preparationProgress, starterPlanCount, STARTER_PLAN, nextPreparationStep, daysUntilDeadline } from './model.js';
+import { preparationProgress, starterPlanCount, STARTER_PLAN, nextPreparationStep, daysUntilDeadline, taskDisplayTitle } from './model.js';
 
 export function createUI(document) {
   const find = id => document.getElementById(id);
@@ -51,7 +51,7 @@ export function createUI(document) {
     const grid=make('div','fields');
     for(const [name,key,type] of fields) {
       const field=make('div','field');const label=make('label');const input=make('input');const error=make('p','field-error');
-      input.id=`${form.id}-${name}`; input.name=name;input.type=type;input.value=record[name];input.autocomplete='off';input.required=name!=='assignee';
+      input.id=`${form.id}-${name}`; input.name=name;input.type=type;input.value=kind==='task' && name==='title' ? taskDisplayTitle(record,language) : record[name];input.autocomplete='off';input.required=name!=='assignee';
       if(type==='date') input.max='9999-12-31';
       label.htmlFor=input.id;label.dataset.i18n=key;label.textContent=t(key);error.id=`${input.id}-error`;error.hidden=true;input.setAttribute('aria-describedby',error.id);
       field.append(label,input,error);grid.append(field);
@@ -74,9 +74,10 @@ export function createUI(document) {
         const rowActions=actions('task',task.id);el.append(rowActions.el);
         row={el,checkbox,title,assignee,actions:rowActions,editor:null}; taskRows.set(task.id,row);
       }
-      row.title.textContent=task.title; row.assignee.textContent=task.assignee || t('unassigned');
+      const title=taskDisplayTitle(task,data.language);
+      row.title.textContent=title; row.assignee.textContent=task.assignee || t('unassigned');
       row.assignee.classList.toggle('is-unassigned',!task.assignee); row.checkbox.checked=task.completed; row.el.classList.toggle('is-complete',task.completed);
-      updateActions(row,'task',task.title,t);
+      updateActions(row,'task',title,t);
     }
     find('tasks-empty').hidden=data.tasks.length>0; find('task-count').textContent=String(data.tasks.length);
   }
@@ -106,7 +107,7 @@ export function createUI(document) {
     find('add-starter-plan').textContent = t(ready ? 'starterPlanAdded' : count ? 'restoreStarterPlan' : 'addStarterPlan');
     find('plan-description').textContent = t(ready ? 'planReadyDescription' : count ? 'planRestoreDescription' : 'planDescription');
     const next = nextPreparationStep(data.tasks);
-    find('next-step-title').textContent = next ? next.task.title : t(data.tasks.length ? 'nextDoneTitle' : 'nextEmptyTitle');
+    find('next-step-title').textContent = next ? taskDisplayTitle(next.task,data.language) : t(data.tasks.length ? 'nextDoneTitle' : 'nextEmptyTitle');
     find('next-step-hint').textContent = t(next ? next.hintKey : data.tasks.length ? 'nextDoneHint' : 'nextEmptyHint');
     find('go-to-task').hidden = !next;
   }
