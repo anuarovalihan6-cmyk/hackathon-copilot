@@ -37,6 +37,28 @@
         <div class="overview-intro"><p class="eyebrow"><span class="small-line" aria-hidden="true"></span><span data-i18n="overviewEyebrow">Your next launch</span></p><h1 id="hackathon-title" tabindex="-1"></h1><p class="intro-copy" data-i18n="overviewIntro">Your preparation, in one place.</p></div>
         <div class="summary-card"><div class="deadline-block"><span class="data-label" data-i18n="dateLabel">Deadline</span><time id="deadline-value"></time></div><div class="progress-block"><div class="progress-heading"><span class="data-label" data-i18n="progressLabel">Preparation progress</span><strong id="progress-value">0%</strong></div><div class="progress-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-i18n-aria="progressLabel" aria-label="Preparation progress"><span class="progress-fill"></span></div><p id="progress-count" class="progress-count"></p></div></div>
         <p class="saved-caption"><span class="status-dot" aria-hidden="true"></span><span id="saved-caption"></span></p>
+        <div id="workspace" class="workspace">
+          <section class="work-section" aria-labelledby="tasks-heading">
+            <div class="section-header"><div class="section-title"><span class="section-number" aria-hidden="true">01</span><h2 id="tasks-heading" data-i18n="tasksHeading">Your next steps</h2><span id="task-count" class="section-count">0</span></div><p class="section-caption" data-i18n="tasksCaption">Small steps, real progress.</p></div>
+            <form id="task-form" class="entry-form" novalidate>
+              <div class="field"><label for="task-title" data-i18n="taskName">Task name</label><input id="task-title" name="title" type="text" required autocomplete="off" data-i18n-placeholder="taskPlaceholder" aria-describedby="task-title-error"><p id="task-title-error" class="field-error" hidden></p></div>
+              <div class="field"><label for="task-assignee"><span data-i18n="assignee">Assignee</span> <span class="optional" data-i18n="optional">optional</span></label><input id="task-assignee" name="assignee" type="text" autocomplete="off" data-i18n-placeholder="assigneePlaceholder"></div>
+              <button class="primary-button compact-button" type="submit" data-i18n="addTask">Add task</button>
+            </form>
+            <ul id="task-list" class="record-list" data-i18n-aria="tasksHeading" aria-label="Your next steps"></ul>
+            <div id="tasks-empty" class="empty-state"><span class="empty-symbol" aria-hidden="true">✓</span><p><strong data-i18n="noTasks">No tasks yet</strong><span data-i18n="noTasksHint">Add your first small step above. You’ve got this.</span></p></div>
+          </section>
+          <section class="work-section" aria-labelledby="news-heading">
+            <div class="section-header"><div class="section-title"><span class="section-number" aria-hidden="true">02</span><h2 id="news-heading" data-i18n="newsHeading">News & useful links</h2><span id="news-count" class="section-count">0</span></div><p class="section-caption" data-i18n="newsCaption">Keep the important things close.</p></div>
+            <form id="news-form" class="entry-form news-form" novalidate>
+              <div class="field"><label for="news-title" data-i18n="newsTitle">News title</label><input id="news-title" name="title" type="text" required autocomplete="off" data-i18n-placeholder="newsPlaceholder" aria-describedby="news-title-error"><p id="news-title-error" class="field-error" hidden></p></div>
+              <div class="field"><label for="news-url" data-i18n="newsLink">Link</label><input id="news-url" name="url" type="url" required autocomplete="off" data-i18n-placeholder="urlPlaceholder" aria-describedby="news-url-error"><p id="news-url-error" class="field-error" hidden></p></div>
+              <button class="primary-button compact-button" type="submit" data-i18n="addNews">Add news</button>
+            </form>
+            <ul id="news-list" class="record-list" data-i18n-aria="newsHeading" aria-label="News and useful links"></ul>
+            <div id="news-empty" class="empty-state"><span class="empty-symbol" aria-hidden="true">↗</span><p><strong data-i18n="noNews">No updates yet</strong><span data-i18n="noNewsHint">Save an important update and its source above.</span></p></div>
+          </section>
+        </div>
       </section>
       <p id="action-message" class="sr-only" aria-live="polite" aria-atomic="true"></p>
     </main>

@@ -71,3 +71,37 @@ input[type="date"]::-webkit-calendar-picker-indicator { opacity:.85; cursor:poin
 @media(max-width:720px) { .app-shell { padding:0 24px; } .topbar { padding:21px 0; } .setup { padding:40px 0; } .fields { grid-template-columns:1fr; gap:19px; } .form-caption { display:none; } .setup-form { padding:23px; } .summary-card { grid-template-columns:1fr; gap:22px; padding:23px; } .deadline-block { border-right:0; border-bottom:1px solid var(--line); padding:0 0 23px; } .overview { padding:40px 0; } }
 @media(max-width:380px) { .app-shell { padding:0 17px; } .brand { gap:8px; font-size:13px; } .brand-mark { width:32px; height:32px; border-radius:9px; } .brand-second { display:block; margin:1px 0 0; } .language-switch { padding:3px; } .language-switch button { min-width:36px; min-height:36px; padding:4px 8px; } .setup-form { padding:20px 17px; } .form-note { align-items:flex-start; } .form-note svg { margin-top:2px; } .footer { align-items:flex-start; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+.workspace { margin-top:36px; }
+.work-section { background:#141a1c; border:1px solid #3c4a43; border-radius:17px; padding:25px 26px; margin-top:22px; }
+.section-header { margin-bottom:23px; }
+.section-title { display:flex; align-items:center; gap:10px; }
+.section-title h2 { font-size:19px; }
+.section-number { font:11px ui-monospace,Consolas,monospace; color:var(--accent); }
+.section-count { color:var(--muted); background:var(--raised); font-size:11px; padding:1px 7px; border-radius:6px; }
+.section-caption { margin:7px 0 0 26px; font-size:13px; color:var(--muted); }
+.entry-form { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto; gap:13px; align-items:start; }
+.entry-form label { font-size:12px; }
+.entry-form input { font-size:13px; }
+.optional { color:var(--muted); font-size:10px; font-weight:400; }
+.compact-button { margin:27px 0 0; width:auto; min-height:50px; font-size:12px; padding:12px 16px; }
+.record-list { list-style:none; padding:0; margin:22px 0 0; }
+.record-list:empty { margin:0; }
+.record-row { display:flex; align-items:flex-start; gap:14px; padding:18px 0; border-top:1px solid var(--line); min-width:0; animation:arrive 200ms ease-out; }
+.record-row:last-child { padding-bottom:3px; }
+.record-body { min-width:0; flex:1; }
+.task-checkbox { width:21px; height:21px; min-height:21px; padding:0; margin:2px 0 0; accent-color:var(--accent); cursor:pointer; flex-shrink:0; }
+.task-title { color:var(--text); font-size:14px; font-weight:450; margin:0; line-height:1.55; overflow-wrap:anywhere; cursor:pointer; }
+.assignee,.news-source { display:block; color:var(--muted); font-size:12px; margin-top:5px; overflow-wrap:anywhere; }
+.assignee:not(.is-unassigned)::before { content:'@ '; color:var(--accent); }
+.assignee.is-unassigned { font-style:italic; }
+.is-complete .task-title { text-decoration:line-through; color:#bdc9be; }
+.news-symbol { color:var(--accent); display:grid; place-items:center; width:25px; height:25px; border-radius:7px; border:1px solid #516343; font-size:14px; flex-shrink:0; }
+.news-link { color:var(--text); font-size:14px; font-weight:450; text-decoration:none; text-underline-offset:4px; overflow-wrap:anywhere; }
+.news-link:hover { color:var(--accent); text-decoration:underline; }
+.empty-state { display:flex; align-items:center; justify-content:center; gap:15px; padding:29px 0 8px; }
+.empty-symbol { color:var(--accent); width:35px; height:35px; display:grid; place-items:center; border:1px dashed #657353; border-radius:11px; flex-shrink:0; }
+.empty-state p { margin:0; }
+.empty-state strong { display:block; font-size:13px; font-weight:500; }
+.empty-state p span { display:block; color:var(--muted); font-size:12px; margin-top:4px; }
+@media(max-width:720px) { .work-section { padding:22px; } .entry-form { grid-template-columns:1fr; gap:15px; } .compact-button { margin-top:0; width:100%; } .section-caption { margin-left:0; } }
+@media(max-width:380px) { .work-section { padding:20px 17px; } .section-title h2 { font-size:17px; } .empty-state { align-items:flex-start; } }

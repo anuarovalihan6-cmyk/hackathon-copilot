@@ -1,4 +1,4 @@
-import { initialData, createHackathon } from './model.js';
+import { initialData, createHackathon, addTask, addNews, setTaskCompleted } from './model.js';
 import { createStorage } from './storage.js';
 import { preferredLanguage } from './i18n.js';
 import { createUI } from './ui.js';
@@ -14,20 +14,26 @@ function saveAndRender() {
   ui.render(data, storageStatus);
 }
 
-document.getElementById('hackathon-form').addEventListener('submit', event => {
-  event.preventDefault();
-  const form = new FormData(event.currentTarget);
-  const result = createHackathon(data, { name: form.get('name'), deadline: form.get('deadline') });
-  if (!result.ok) {
-    ui.showErrors(data.language, result.errors);
-    ui.focusFirstError(result.errors);
-    return;
-  }
-  data = result.data;
-  ui.showErrors(data.language);
-  saveAndRender();
-  ui.focusOverview();
-  ui.announce(data.language, 'created');
+function bindForm(id,operation,announcement) {
+  const form=document.getElementById(id);
+  form.addEventListener('input',event=>ui.clearFieldError(id,event.target.name,data.language));
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    const result=operation(data,Object.fromEntries(new FormData(form)));
+    if(!result.ok) { ui.showErrors(id,data.language,result.errors); ui.focusFirstError(id,result.errors); return; }
+    data=result.data; form.reset(); ui.showErrors(id,data.language); saveAndRender();
+    if(id==='hackathon-form') ui.focusOverview(); else form.elements.namedItem('title').focus();
+    ui.announce(data.language,announcement);
+  });
+}
+bindForm('hackathon-form',createHackathon,'created');
+bindForm('task-form',addTask,'taskAdded');
+bindForm('news-form',addNews,'newsAdded');
+
+document.getElementById('task-list').addEventListener('change',event=>{
+  if(!event.target.matches('[data-task-toggle]')) return;
+  data=setTaskCompleted(data,event.target.dataset.taskToggle,event.target.checked);
+  saveAndRender(); ui.announce(data.language,'completionUpdated');
 });
 
 document.querySelectorAll('[data-language]').forEach(button => {

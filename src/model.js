@@ -43,3 +43,23 @@ export function preparationProgress(tasks) {
   const done = tasks.filter(task => task.completed).length;
   return { total, done, percent: total ? Math.floor(done * 100 / total) : 0 };
 }
+
+export function addTask(data, { title, assignee = '' }, id = crypto.randomUUID()) {
+  if (!nonempty(title)) return { ok: false, errors: { title: 'taskTitleRequired' } };
+  const task = { id, title: title.trim(), assignee: String(assignee).trim(), completed: false };
+  return { ok: true, data: { ...data, tasks: [...data.tasks, task] } };
+}
+
+export function setTaskCompleted(data, id, completed) {
+  if (typeof completed !== 'boolean') return data;
+  return { ...data, tasks: data.tasks.map(task => task.id === id ? { ...task, completed } : task) };
+}
+
+export function addNews(data, { title, url }, id = crypto.randomUUID()) {
+  const errors = {};
+  if (!nonempty(title)) errors.title = 'newsTitleRequired';
+  if (!isWebUrl(url)) errors.url = 'urlInvalid';
+  if (Object.keys(errors).length) return { ok: false, errors };
+  const item = { id, title: title.trim(), url: new URL(url).href };
+  return { ok: true, data: { ...data, news: [...data.news, item] } };
+}
