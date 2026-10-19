@@ -1,0 +1,37 @@
+const messages = {
+  en: {
+    languageLabel: 'Interface language', eyebrow: 'A little structure. A big head start.', titlePrefix: 'Build your',
+    intro: 'Start with a name and a deadline. Give your next idea a place to grow.',
+    formTitle: 'Your hackathon', formCaption: 'Let’s make it happen', nameLabel: 'Hackathon name',
+    namePlaceholder: 'e.g. Build With AI: Basics', dateLabel: 'Deadline', startButton: 'Start preparing',
+    browserNote: 'Saved in this browser. Ready when you are.', bottomNote: 'One project. A clear starting point.',
+    footer: 'A little focus for your next big idea.', overviewEyebrow: 'Your next launch', overviewIntro: 'Your preparation, in one place.',
+    progressLabel: 'Preparation progress', progressCount: '{done} of {total} tasks completed',
+    savedCaption: 'Saved in this browser', sessionCaption: 'Available in this open session',
+    nameRequired: 'Give your hackathon a name.', dateRequired: 'Choose a deadline.', dateInvalid: 'Choose a valid calendar date.',
+    storageUnavailable: 'Changes are visible here, but this browser could not save them. They may be lost when you close the page.',
+    storageInvalid: 'Your saved data could not be read. It has not been overwritten. New changes in this session will not be saved.',
+    created: 'Hackathon created. Your preparation is ready to begin.'
+  },
+  ru: {
+    languageLabel: 'Язык интерфейса', eyebrow: 'Немного порядка. Уверенный старт.', titlePrefix: 'Создай свой',
+    intro: 'Начни с названия и дедлайна. Дай своей следующей идее место для роста.',
+    formTitle: 'Твой хакатон', formCaption: 'От идеи к делу', nameLabel: 'Название хакатона',
+    namePlaceholder: 'Например, Build With AI: Basics', dateLabel: 'Дедлайн', startButton: 'Начать подготовку',
+    browserNote: 'Сохранится в этом браузере. Возвращайся, когда удобно.', bottomNote: 'Один проект. Понятная точка старта.',
+    footer: 'Немного внимания твоей следующей большой идее.', overviewEyebrow: 'Твой следующий старт', overviewIntro: 'Твоя подготовка — в одном месте.',
+    progressLabel: 'Прогресс подготовки', progressCount: 'Выполнено задач: {done} из {total}',
+    savedCaption: 'Сохранено в этом браузере', sessionCaption: 'Доступно в этом открытии страницы',
+    nameRequired: 'Введи название хакатона.', dateRequired: 'Выбери дедлайн.', dateInvalid: 'Выбери существующую календарную дату.',
+    storageUnavailable: 'Изменения видны на странице, но браузер не смог их сохранить. После закрытия страницы они могут пропасть.',
+    storageInvalid: 'Не удалось прочитать сохранённые данные. Они не перезаписаны. Новые изменения в этом открытии не сохранятся.',
+    created: 'Хакатон создан. Можно начинать подготовку.'
+  }
+};
+
+export function preferredLanguage(browserLanguage = '') { return browserLanguage.toLowerCase().startsWith('ru') ? 'ru' : 'en'; }
+export function translate(language, key, values = {}) {
+  let text = messages[language]?.[key] ?? messages.en[key] ?? key;
+  for (const [name, value] of Object.entries(values)) text = text.replaceAll(`{${name}}`, String(value));
+  return text;
+}

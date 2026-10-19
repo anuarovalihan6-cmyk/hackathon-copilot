@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Hackathon Copilot — поведение первой версии</title>
+  <style>
+    :root { --bg:#101315; --panel:#191e22; --raised:#20272b; --ink:#f1f4ef; --muted:#acb9b8; --line:#34403f; --accent:#c5f46c; --soft:#26351e; --blue:#a4d9ec; --sand:#e4c791; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--bg); font:16px/1.65 "Segoe UI",Arial,sans-serif; }
+    .page { max-width:1160px; padding:30px 34px 48px; margin:auto; }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:16px; border-bottom:1px solid var(--line); padding-bottom:20px; }
+    .eyebrow { margin:0; color:var(--accent); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; }
+    .status { border:1px solid #526b34; color:var(--accent); background:var(--soft); border-radius:30px; padding:4px 12px; font-size:12px; white-space:nowrap; }
+    .hero { display:grid; grid-template-columns:minmax(0,1fr) 265px; align-items:center; gap:32px; padding:32px 0; }
+    h1 { font-size:clamp(33px,4.8vw,51px); line-height:1.13; letter-spacing:-.04em; font-weight:600; margin:10px 0 14px; }
+    .lead { margin:0; color:var(--muted); font-size:18px; max-width:690px; }
+    .focus { border-left:2px solid var(--accent); padding-left:18px; color:var(--muted); font-size:14px; }
+    .focus strong { display:block; color:var(--ink); font-size:18px; font-weight:500; margin-bottom:6px; }
+    .section-heading { display:flex; align-items:baseline; gap:11px; margin:0 0 12px; }
+    .section-heading span { color:var(--accent); font-size:12px; letter-spacing:.06em; }
+    h2 { margin:0; font-size:24px; line-height:1.3; letter-spacing:-.02em; font-weight:550; }
+    .intro { color:var(--muted); margin:0 0 17px; max-width:860px; }
+    .map { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px; }
+    .map-meta { display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted); font-size:13px; }
+    .tag { color:var(--accent); padding:2px 9px; border-radius:20px; background:var(--soft); font-size:12px; white-space:nowrap; }
+    .journey { width:100%; height:auto; display:block; margin-top:8px; }
+    .journey text { font-family:"Segoe UI",Arial,sans-serif; fill:var(--ink); }
+    .journey .caption { fill:var(--muted); font-size:14px; }
+    .journey .node-title { font-size:18px; font-weight:600; }
+    .journey .label { fill:var(--accent); font-size:12px; letter-spacing:.04em; }
+    .flow-mobile { display:none; list-style:none; margin:20px 0 0; padding:0; }
+    .flow-mobile li { border-left:2px solid var(--line); position:relative; padding:0 0 19px 21px; margin-left:6px; }
+    .flow-mobile li::before { content:""; position:absolute; width:10px; height:10px; border-radius:50%; background:var(--accent); left:-6px; top:8px; }
+    .flow-mobile li:last-child { padding-bottom:0; border-left-color:transparent; }
+    .flow-mobile strong { display:block; font-weight:500; }
+    .flow-mobile span { display:block; color:var(--muted); font-size:14px; }
+    .section { margin-top:32px; }
+    .behaviors { display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; }
+    details { border:1px solid var(--line); border-radius:13px; background:var(--panel); overflow:hidden; }
+    summary { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:17px 19px; font-size:16px; font-weight:500; cursor:pointer; list-style:none; }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:"+"; font-size:23px; line-height:1; color:var(--accent); font-weight:400; }
+    details[open] > summary::after { content:"−"; }
+    details[open] > summary { border-bottom:1px solid var(--line); }
+    summary:focus-visible, a:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+    .body { padding:17px 19px 19px; }
+    .body p { margin:0 0 12px; font-size:14px; }
+    .body p:last-child { margin-bottom:0; }
+    .body ul { padding-left:18px; margin:0; font-size:14px; }
+    .body li { margin-bottom:8px; }
+    .body li:last-child { margin-bottom:0; }
+    .labelled { display:block; color:var(--muted); font-size:12px; margin-bottom:5px; text-transform:uppercase; letter-spacing:.06em; }
+    .criterion { border-top:1px solid var(--line); padding-top:12px; margin-top:14px!important; color:var(--blue); }
+    .criterion strong { font-weight:500; }
+    code { font-family:inherit; color:var(--ink); font-size:inherit; background:var(--raised); border-radius:4px; padding:1px 5px; }
+    .layout { padding:18px 20px; border-left:3px solid var(--accent); background:var(--panel); font-size:15px; }
+    .layout strong { font-weight:500; color:var(--accent); }
+    .proposal { border:1px solid #6c593a; background:#242017; border-radius:14px; padding:21px; }
+    .proposal > p { color:#d3c8b3; margin:0 0 17px; font-size:14px; }
+    .proposal-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+    .proposal h3 { margin:0 0 9px; font-size:16px; font-weight:500; color:#f0dcb4; }
+    .proposal ul { padding-left:18px; margin:0; font-size:14px; color:#e8e0d1; }
+    .proposal li { margin-bottom:8px; }
+    .proposal details { margin-top:17px; background:#2b251b; border-color:#6c593a; }
+    .proposal summary { font-size:14px; padding:12px 15px; }
+    .proposal .body { padding:14px 15px; color:#e8e0d1; }
+    .proposal .body p { font-size:14px; }
+    .design { display:grid; grid-template-columns:1fr 1fr; gap:24px; border-top:1px solid var(--line); padding-top:22px; }
+    .design h3 { font-size:16px; font-weight:500; margin:0 0 8px; }
+    .design p { color:var(--muted); font-size:14px; margin:0; }
+    .references { display:flex; gap:8px 16px; flex-wrap:wrap; margin-top:10px; }
+    a { color:var(--blue); text-underline-offset:3px; }
+    .references a { font-size:14px; }
+    .later { color:var(--muted); font-size:14px; padding:19px 20px; border:1px solid var(--line); border-radius:12px; margin-top:23px; }
+    .later strong { color:var(--ink); font-weight:500; }
+    footer { border-top:1px solid var(--line); margin-top:28px; padding-top:18px; color:var(--muted); font-size:12px; }
+    @media (max-width:940px) { .journey { display:none; } .flow-mobile { display:block; } }
+    @media (max-width:720px) {
+      .page { padding:22px 20px 36px; }
+      .hero { grid-template-columns:1fr; gap:20px; padding:27px 0; }
+      .focus { max-width:600px; }
+      .behaviors, .proposal-grid, .design { grid-template-columns:1fr; }
+      .map-meta { align-items:flex-start; flex-direction:column; gap:8px; }
+      .lead { font-size:17px; }
+    }
+    @media (max-width:380px) {
+      .page { padding:17px 15px 28px; }
+      .top { flex-wrap:wrap; gap:9px; }
+      h2 { font-size:22px; }
+      .map, .proposal { padding:17px; }
+    }
+    @media print { body { background:#fff; color:#172123; } details:not([open]) > .body { display:block; } details, .proposal { break-inside:avoid; } }
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="top"><p class="eyebrow">Devpost Learn · 3-prd</p><span class="status">Согласовано · первая версия</span></header>
+  <section class="hero" aria-labelledby="title">
+    <div><p class="eyebrow">Hackathon Copilot</p><h1 id="title">Поведение первой версии</h1><p class="lead">Теперь у идеи есть конкретный путь: создать хакатон, организовать работу команды и вернуться к сохранённой подготовке.</p></div>
+    <aside class="focus"><strong>Одна страница, два языка</strong>EN / RU доступны при первом запуске и во время работы. Данные и выбранный язык сохраняются.</aside>
+  </section>
+
+  <section aria-labelledby="journey-title">
+    <div class="section-heading"><span>01</span><h2 id="journey-title">Путь пользователя</h2></div>
+    <div class="map">
+      <div class="map-meta"><span>От первого открытия до продолжения работы</span><span class="tag">EN / RU на каждом шаге</span></div>
+      <svg class="journey" viewBox="0 0 1020 300" role="img" aria-labelledby="diagram-title diagram-description">
+        <title id="diagram-title">Путь пользователя Hackathon Copilot</title>
+        <desc id="diagram-description">На первом экране пользователь видит Build your MVP и переключатель EN/RU. Заполняет название и дедлайн. Затем добавляет задачи с необязательным ответственным и новости со ссылками, редактирует записи, отмечает выполнение. Прогресс меняется. После повторного открытия данные и выбранный язык сохраняются.</desc>
+        <defs><marker id="journey-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#86a18a"/></marker></defs>
+        <g fill="none" stroke="#86a18a" stroke-width="1.6" marker-end="url(#journey-arrow)"><path d="M220 100H262"/><path d="M482 100H524"/><path d="M744 100H786"/></g>
+        <g fill="#20272b" stroke="#34403f"><rect x="2" y="34" width="218" height="131" rx="12"/><rect x="265" y="34" width="217" height="131" rx="12"/><rect x="527" y="34" width="217" height="131" rx="12"/><rect x="789" y="34" width="229" height="131" rx="12"/></g>
+        <text x="20" y="62" class="label">ПЕРВЫЙ ЗАПУСК</text><text x="20" y="91" class="node-title">Build your MVP</text><text x="20" y="119" class="caption">Форма сразу под</text><text x="20" y="141" class="caption">заголовком · EN / RU</text>
+        <text x="283" y="62" class="label">НАЧАЛО</text><text x="283" y="91" class="node-title">Хакатон и дедлайн</text><text x="283" y="119" class="caption">Название + дата</text><text x="283" y="141" class="caption">Start preparing</text>
+        <text x="545" y="62" class="label">ПОДГОТОВКА</text><text x="545" y="91" class="node-title">Задачи и новости</text><text x="545" y="119" class="caption">Ответственный по желанию</text><text x="545" y="141" class="caption">Edit · Delete · Выполнение</text>
+        <text x="807" y="62" class="label">РЕЗУЛЬТАТ</text><text x="807" y="91" class="node-title">Видимый прогресс</text><text x="807" y="119" class="caption">Выполненные задачи</text><text x="807" y="141" class="caption">меняют полосу прогресса</text>
+        <path d="M903 165V211" fill="none" stroke="#86a18a" stroke-width="1.6" marker-end="url(#journey-arrow)"/>
+        <rect x="265" y="214" width="753" height="64" rx="11" fill="#26351e"/>
+        <text x="285" y="242" class="node-title">Открываешь снова — данные и язык на месте</text><text x="285" y="264" class="caption">Продолжаешь подготовку в том же браузере на том же компьютере.</text>
+        <path d="M265 247H243V185H373V168" fill="none" stroke="#86a18a" stroke-width="1.6" marker-end="url(#journey-arrow)"/>
+      </svg>
+      <ol class="flow-mobile">
+        <li><strong>Первый запуск</strong><span>Build your MVP / Создай свой MVP, сразу видимая форма, переключатель EN / RU.</span></li>
+        <li><strong>Создание хакатона</strong><span>Название и дедлайн → Start preparing / Начать подготовку.</span></li>
+        <li><strong>Задачи и новости</strong><span>Добавляешь записи, назначаешь ответственных, используешь Edit и Delete.</span></li>
+        <li><strong>Прогресс</strong><span>Отмечаешь выполненные задачи — полоса меняется.</span></li>
+        <li><strong>Возвращение</strong><span>В том же браузере доступны сохранённые данные и выбранный язык.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="layout-title">
+    <div class="section-heading"><span>02</span><h2 id="layout-title">Расположение на странице</h2></div>
+    <div class="layout"><strong>Сверху:</strong> название, дедлайн, заметный прогресс и переключатель языка.<br><strong>Ниже:</strong> задачи с ответственными и выполнением.<br><strong>Затем:</strong> новости и ссылки на источники.</div>
+  </section>
+
+  <section class="section" aria-labelledby="behaviors-title">
+    <div class="section-heading"><span>03</span><h2 id="behaviors-title">Действия и проверка результата</h2></div>
+    <p class="intro">Раскрой нужный раздел: внутри видно, что делает пользователь и как проверить поведение.</p>
+    <div class="behaviors">
+      <details open><summary>Первый запуск и хакатон</summary><div class="body">
+        <span class="labelled">Что происходит</span><p>Под <code>Build your MVP</code> сразу есть поля названия и дедлайна, кнопка <code>Start preparing</code>. После добавления хакатона появляется рабочая часть той же страницы.</p>
+        <p class="criterion"><strong>Проверка:</strong> введённые название и дедлайн видны над задачами. Переключатель EN / RU доступен до заполнения формы.</p>
+      </div></details>
+      <details open><summary>Задачи и ответственные</summary><div class="body">
+        <p><code>Task name</code> + необязательный <code>Assignee</code> → <code>Add task</code>. Ответственного вписываешь вручную, в том числе после добавления задачи.</p>
+        <p><code>Edit</code> меняет название и ответственного. <code>Delete</code> удаляет задачу. Отметка выполнения влияет на прогресс.</p>
+        <p class="criterion"><strong>Проверка:</strong> задача без ответственного показывает <code>Unassigned</code> / <code>Не назначен</code>. После назначения видимо введённое имя.</p>
+      </div></details>
+      <details><summary>Новости и источники</summary><div class="body">
+        <p><code>News title</code> + <code>Link</code> → <code>Add news</code>. Новость добавляешь вручную. Сохранённая запись позволяет открыть источник.</p>
+        <p><code>Edit</code> исправляет заголовок и ссылку. <code>Delete</code> удаляет запись. По новости ты сам решаешь, какую задачу добавить команде.</p>
+        <p class="criterion"><strong>Проверка:</strong> новость видна в списке под задачами; её ссылка открывает источник. Автоматические новости оставлены на будущее.</p>
+      </div></details>
+      <details><summary>Переключение EN / RU</summary><div class="body">
+        <p>Меняются все заголовки, подписи полей, кнопки, подсказки, пустые состояния и ошибки. Например: <code>Build your MVP</code> → <code>Создай свой MVP</code>.</p>
+        <p>Введённые названия, имена и тексты сохраняются в исходном виде. Ручной выбор языка запоминается даже до создания хакатона.</p>
+        <p class="criterion"><strong>Проверка:</strong> при смене языка сохраняются записи и текст в открытых полях. После повторного открытия используется выбранный язык.</p>
+      </div></details>
+      <details><summary>Прогресс подготовки</summary><div class="body">
+        <p>Полоса прогресса расположена сверху. Расчёт — доля выполненных задач с процентом и счётчиком выполнено / всего.</p>
+        <p>Отметку можно поставить и снять. После добавления или удаления задачи показатель пересчитывается.</p>
+        <p class="criterion"><strong>Проверка:</strong> нет задач → 0%; все существующие задачи выполнены → 100%. Обратная отметка меняет прогресс снова.</p>
+      </div></details>
+      <details><summary>Сохранение и возвращение</summary><div class="body">
+        <p>Сохраняются хакатон, дедлайн, новости, задачи, ответственные, отметки и выбранный язык. Подготовкой управляет один человек на своём компьютере.</p>
+        <p class="criterion"><strong>Проверка:</strong> закрыть и снова открыть приложение в том же браузере — данные и выбор EN / RU доступны для продолжения работы.</p>
+      </div></details>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="defaults-title">
+    <div class="section-heading"><span>04</span><h2 id="defaults-title">Правила первой версии</h2></div>
+    <div class="proposal">
+      <p>Эти простые правила согласованы вместе с PRD: дедлайн задаётся датой без времени, начальный язык выбирается по браузеру, ручной выбор EN / RU сохраняется.</p>
+      <div class="proposal-grid">
+        <div><h3>Формы и исправления</h3><ul>
+          <li>Дедлайн — календарная дата без отдельного времени.</li>
+          <li>Название хакатона и дедлайн обязательны. Их можно исправить через <code>Edit hackathon</code>.</li>
+          <li>Название задачи обязательно, ответственный необязателен.</li>
+          <li>Заголовок новости и ссылка на веб-страницу обязательны.</li>
+          <li><code>Save changes</code> применяет исправления; <code>Cancel</code> оставляет прежнюю запись.</li>
+        </ul></div>
+        <div><h3>Пустые списки и язык</h3><ul>
+          <li>Нет задач: <code>No tasks yet</code>, приглашение добавить задачу и прогресс 0%.</li>
+          <li>Нет новостей: <code>No updates yet</code> и приглашение добавить новость вручную.</li>
+          <li>При первом открытии русский выбирается для браузера с русским языком, иначе — английский.</li>
+          <li>После ручного выбора EN / RU используется сохранённый язык.</li>
+          <li>Все эти сообщения переводятся вместе с интерфейсом.</li>
+        </ul></div>
+      </div>
+      <details><summary>Что происходит при ошибке</summary><div class="body">
+        <p><strong>Пустое обязательное поле или непригодная ссылка:</strong> рядом с полем появляется понятная подсказка. Запись не добавляется; введённый текст остаётся для исправления.</p>
+        <p><strong>Ошибка сохранения в браузере:</strong> появляется понятное сообщение об ошибке. Уже введённые данные остаются видны в текущем открытии.</p>
+      </div></details>
+    </div>
+  </section>
+
+  <section class="section design" aria-label="Оформление и референсы">
+    <div><h3>Выбранное направление</h3><p>Тёмный фон, светлый текст, яркие акценты на кнопках и прогрессе, плавные анимации. Точные оттенки и приёмы определим в техническом плане. Изучены примеры из твоих референсов, открытые главы Refactoring UI и рекомендации по читаемости и движению; выводы сохранены для будущего дизайна.</p></div>
+    <div><h3>Твои референсы</h3><p>Ориентиры для оформления и анимаций будущего приложения.</p><div class="references"><a href="https://styles.refero.design/" target="_blank" rel="noreferrer">Refero Styles</a><a href="https://skiper-ui.com/" target="_blank" rel="noreferrer">Skiper UI</a><a href="https://www.aisdkagents.com/" target="_blank" rel="noreferrer">AI SDK Agents</a></div></div>
+  </section>
+  <div class="later"><strong>Позже:</strong> автоматическое получение новостей, совместное редактирование через интернет и автоматическое распределение задач. Платные инструменты исключены по твоему пожеланию.</div>
+  <footer>Это согласованный наглядный документ о поведении первой версии. Основной документ: <a href="prd.md">prd.md</a> · Границы проекта: <a href="scope.html">scope</a>. Следующий этап — технический план <strong>4-spec</strong>.</footer>
+</main>
+</body>
+</html>

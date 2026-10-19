@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hackathon Copilot — технический план</title>
+  <style>
+    :root { color-scheme:dark; --bg:#101416; --panel:#171d20; --raised:#20282b; --ink:#edf2ed; --muted:#a9b4b2; --line:#35433e; --accent:#cff56b; --blue:#8fc4ff; --error:#ffb4a7; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui,"Segoe UI",sans-serif; }
+    .page { max-width:1160px; margin:0 auto; padding:28px 32px 44px; }
+    .top { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; padding-bottom:22px; border-bottom:1px solid var(--line); }
+    .eyebrow { color:var(--accent); margin:0 0 12px; font-size:12px; font-weight:650; letter-spacing:.08em; text-transform:uppercase; }
+    .top .eyebrow { margin:0; }
+    .badge { color:#f0dcb4; background:#282419; border:1px solid #75613d; border-radius:99px; padding:6px 12px; font-size:12px; }
+    .hero { padding:38px 0 30px; display:grid; grid-template-columns:1.7fr 1fr; gap:40px; align-items:center; }
+    h1 { font-size:clamp(32px,4.3vw,48px); line-height:1.12; font-weight:620; letter-spacing:-.04em; margin:0 0 18px; max-width:750px; }
+    .lead { color:var(--muted); font-size:18px; margin:0; max-width:660px; }
+    .focus { border-left:3px solid var(--accent); padding-left:18px; color:var(--muted); font-size:14px; }
+    .focus strong { display:block; color:var(--ink); font-size:17px; margin-bottom:7px; }
+    .nav { display:flex; gap:10px 22px; flex-wrap:wrap; border-bottom:1px solid var(--line); padding:0 0 22px; }
+    a { color:var(--blue); text-underline-offset:4px; }
+    .nav a { font-size:14px; }
+    a:focus-visible,summary:focus-visible { outline:3px solid var(--blue); outline-offset:4px; border-radius:3px; }
+    section { margin-top:32px; scroll-margin-top:16px; }
+    .heading { display:flex; align-items:baseline; gap:12px; margin-bottom:15px; }
+    .heading span { color:var(--accent); font-size:13px; }
+    h2 { font-size:26px; line-height:1.25; font-weight:560; letter-spacing:-.02em; margin:0; }
+    h3 { font-size:17px; font-weight:550; margin:0 0 8px; }
+    p { margin:0 0 14px; }
+    p:last-child { margin-bottom:0; }
+    .intro { color:var(--muted); margin-bottom:18px; }
+    .cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px; min-width:0; }
+    .card p { font-size:15px; color:var(--muted); }
+    .card .label { font-size:12px; color:var(--accent); margin-bottom:9px; }
+    .command { display:block; font:600 24px/1.4 ui-monospace,Consolas,monospace; color:var(--ink); margin:8px 0; }
+    .url { color:var(--blue); overflow-wrap:anywhere; }
+    .note { padding:16px 20px; background:#20291b; border-left:3px solid var(--accent); margin-top:16px; font-size:14px; color:#d2ddc9; }
+    .diagram { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px; }
+    .diagram > p { font-size:13px; color:var(--muted); }
+    svg { display:block; width:100%; height:auto; }
+    .node-title { fill:var(--ink); font-size:19px; font-weight:550; }
+    .node-copy { fill:var(--muted); font-size:14px; }
+    .node-label { fill:var(--accent); font-size:12px; font-weight:550; }
+    .mobile-flow { display:none; margin:0; padding:0; list-style:none; }
+    .mobile-flow li { border-left:2px solid #718355; padding:0 0 22px 16px; }
+    .mobile-flow li:last-child { padding-bottom:0; border-left-color:transparent; }
+    .mobile-flow strong { display:block; font-weight:550; }
+    .mobile-flow span { display:block; color:var(--muted); font-size:14px; }
+    .reveal-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:start; }
+    details { background:var(--panel); border:1px solid var(--line); border-radius:13px; min-width:0; }
+    summary { padding:16px 18px; cursor:pointer; font-weight:500; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:14px; }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:"+"; color:var(--accent); font-size:23px; font-weight:400; line-height:1; }
+    details[open] > summary::after { content:"−"; }
+    details[open] > summary { border-bottom:1px solid var(--line); }
+    .body { padding:16px 18px 18px; font-size:14px; }
+    .body p { color:var(--muted); }
+    .body strong { color:var(--ink); font-weight:550; }
+    .body ul { margin:0 0 13px; padding-left:18px; }
+    .body li { margin-bottom:7px; }
+    .trace { color:var(--blue)!important; font-size:12px; border-top:1px solid var(--line); padding-top:12px; margin-top:14px; overflow-wrap:anywhere; }
+    code { font:inherit; color:var(--ink); background:var(--raised); padding:1px 5px; border-radius:4px; overflow-wrap:anywhere; }
+    .body code { font-size:13px; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; font:13px/1.7 ui-monospace,Consolas,monospace; color:var(--ink); margin:0; }
+    .swatches { display:flex; gap:10px; flex-wrap:wrap; margin:16px 0; }
+    .swatch { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:13px; }
+    .swatch i { display:inline-block; width:22px; height:22px; border:1px solid #667570; border-radius:6px; }
+    .design-grid { display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+    .design-grid p { font-size:15px; color:var(--muted); }
+    .links { display:flex; gap:8px 18px; flex-wrap:wrap; font-size:14px; }
+    .checks { display:grid; grid-template-columns:1fr 1fr; gap:12px 28px; padding:0; list-style:none; margin:0; }
+    .checks li { display:flex; gap:12px; font-size:15px; }
+    .checks li::before { content:"○"; color:var(--accent); font-weight:650; }
+    .review { margin-top:30px; padding:22px; border:1px solid #667570; border-radius:16px; background:var(--panel); }
+    .review p { color:var(--muted); font-size:14px; }
+    footer { padding-top:20px; margin-top:28px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; }
+    @media(max-width:940px) { .desktop-flow { display:none; } .mobile-flow { display:block; } }
+    @media(max-width:720px) {
+      .page { padding:22px 20px 34px; }
+      .hero { grid-template-columns:1fr; gap:23px; padding:28px 0; }
+      .cards,.reveal-grid,.design-grid,.checks { grid-template-columns:1fr; }
+      .lead { font-size:17px; }
+      h2 { font-size:23px; }
+    }
+    @media(max-width:380px) { .page { padding:17px 15px 28px; } .card,.diagram,.review { padding:17px; } .heading { gap:9px; } }
+    @media print { details > .body { display:block!important; } details,.card { break-inside:avoid; } }
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="top"><p class="eyebrow">Devpost Learn · 4-spec</p><span class="badge">Согласовано · этап завершён</span></header>
+  <div class="hero" aria-labelledby="title">
+    <div><p class="eyebrow">Hackathon Copilot</p><h1 id="title">Как будет работать приложение</h1><p class="lead">Одна страница из HTML, CSS и JavaScript. Данные остаются в браузере, а техническую работу выполняю я.</p></div>
+    <aside class="focus"><strong>Сначала план, затем код</strong>Здесь показано устройство будущего приложения. Готовый продукт появится на следующем этапе, 5-build.</aside>
+  </div>
+  <nav class="nav" aria-label="Разделы плана"><a href="#run">Как открывать</a><a href="#flow">Схема</a><a href="#journey">Действия</a><a href="#design">Оформление</a><a href="#checks">Проверки</a></nav>
+
+  <section id="run" aria-labelledby="run-title">
+    <div class="heading"><span>01</span><h2 id="run-title">Как будем открывать</h2></div>
+    <p class="intro">Сначала на твоём компьютере. Новую программу скачивать сейчас не требуется: Node.js уже установлен.</p>
+    <div class="cards">
+      <article class="card"><p class="label">ЗАПУСК ДЕЛАЮ Я</p><h3>Одна короткая команда</h3><span class="command">npm start</span><p>Она запустит небольшой служебный файл, который отдаёт браузеру страницу приложения. Здесь команда показана как часть будущего плана; выполнять её сейчас не нужно.</p></article>
+      <article class="card"><p class="label">ТЫ ВИДИШЬ СТРАНИЦУ</p><h3>Постоянный адрес</h3><p class="url">http://127.0.0.1:4173/</p><p>Этот адрес ведёт на твой компьютер. Я открою его после запуска. Пока открыта страница и работает локальный запуск, можно пользоваться приложением.</p></article>
+    </div>
+    <div class="note">Один адрес + один профиль браузера = то же сохранённое. Если сменить порт, браузер или очистить данные сайта, прежние записи могут быть недоступны. При повторном запуске используем тот же адрес.</div>
+  </section>
+
+  <section id="flow" aria-labelledby="flow-title">
+    <div class="heading"><span>02</span><h2 id="flow-title">Три части и их связь</h2></div>
+    <div class="diagram">
+      <p>Node.js помогает открыть страницу. Сама подготовка обрабатывается и сохраняется в браузере.</p>
+      <svg class="desktop-flow" viewBox="0 0 1060 225" role="img" aria-labelledby="diagram-title diagram-desc">
+        <title id="diagram-title">Файлы проекта, страница и память браузера</title>
+        <desc id="diagram-desc">Локальный Node.js выдаёт HTML, CSS и JavaScript браузеру. Пользователь работает со страницей. JavaScript читает и сохраняет задачи, новости и язык в localStorage. После повторного открытия данные возвращаются оттуда на страницу.</desc>
+        <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#9cb982"/></marker></defs>
+        <rect x="1" y="35" width="245" height="156" rx="13" fill="#20282b" stroke="#51615c"/>
+        <text x="21" y="63" class="node-label">НА ТВОЁМ КОМПЬЮТЕРЕ</text><text x="21" y="95" class="node-title">Файлы + Node.js</text><text x="21" y="127" class="node-copy">Открывает страницу</text><text x="21" y="151" class="node-copy">Не хранит твои задачи</text>
+        <path d="M249 111H316" fill="none" stroke="#9cb982" stroke-width="1.7" marker-end="url(#arrow)"/>
+        <rect x="320" y="12" width="365" height="200" rx="13" fill="#232f1d" stroke="#718355"/>
+        <text x="341" y="41" class="node-label">В БРАУЗЕРЕ</text><text x="341" y="74" class="node-title">Hackathon Copilot</text><text x="341" y="106" class="node-copy">HTML — поля и кнопки</text><text x="341" y="133" class="node-copy">CSS — оформление и анимации</text><text x="341" y="160" class="node-copy">JavaScript — действия и прогресс</text><text x="341" y="190" class="node-copy">EN / RU · задачи · новости</text>
+        <path d="M689 94H772" fill="none" stroke="#9cb982" stroke-width="1.7" marker-end="url(#arrow)"/><text x="696" y="80" class="node-copy" style="font-size:11px">сохранить</text>
+        <path d="M776 145H694" fill="none" stroke="#9cb982" stroke-width="1.7" marker-end="url(#arrow)"/><text x="698" y="169" class="node-copy" style="font-size:11px">прочитать</text>
+        <rect x="780" y="35" width="279" height="156" rx="13" fill="#20282b" stroke="#51615c"/>
+        <text x="801" y="63" class="node-label">ПАМЯТЬ БРАУЗЕРА</text><text x="801" y="95" class="node-title">localStorage</text><text x="801" y="127" class="node-copy">Хакатон, задачи, новости</text><text x="801" y="151" class="node-copy">и выбранный язык</text>
+      </svg>
+      <ol class="mobile-flow"><li><strong>Файлы проекта + Node.js</strong><span>Открывают страницу по постоянному адресу на твоём компьютере. Задачи здесь не хранятся.</span></li><li><strong>Страница в браузере</strong><span>HTML — поля и кнопки. CSS — оформление. JavaScript — действия, язык и прогресс.</span></li><li><strong>Память браузера: localStorage</strong><span>Страница записывает хакатон, задачи, новости и язык, а при следующем открытии читает их обратно.</span></li></ol>
+    </div>
+  </section>
+
+  <section id="journey" aria-labelledby="journey-title">
+    <div class="heading"><span>03</span><h2 id="journey-title">Что происходит при действиях</h2></div>
+    <p class="intro">Можно раскрывать по одному пункту. Внутри — действие, результат и место в будущих файлах.</p>
+    <div class="reveal-grid">
+      <details open><summary>1. Создаёшь хакатон</summary><div class="body"><p>Под <strong>Build your MVP / Создай свой MVP</strong> вводишь название и календарную дату. JavaScript проверяет поля, сохраняет хакатон и показывает рабочую часть на той же странице.</p><p>Название и дату можно исправить. <strong>Сохранить изменения</strong> применяет их, <strong>Отмена</strong> оставляет прежнее. Задачи и новости остаются на месте.</p><p class="trace">PRD: Hackathon Setup · файлы: index.html, main.js, model.js, ui.js.</p></div></details>
+      <details><summary>2. Добавляешь и меняешь задачи</summary><div class="body"><p>Название обязательно, ответственный — по желанию. Пустое имя показывается как <strong>Не назначен / Unassigned</strong>. Через редактирование можно назначить человека позже.</p><p>Есть отметка выполнения, редактирование и удаление. Редактирование названия или имени сохраняет прежнюю отметку выполнения. Ошибка ввода оставляет текст для исправления.</p><p class="trace">PRD: Tasks and Assignees · файлы: main.js, model.js, ui.js.</p></div></details>
+      <details><summary>3. Сохраняешь новость со ссылкой</summary><div class="body"><p>Вводишь заголовок и ссылку на сайт. После проверки новость появляется под задачами. Можно изменить или удалить запись; источник открывается в новой вкладке.</p><p>Обновления добавляются вручную. По новости ты решаешь, какую задачу создать. Содержимое сайта приложение автоматически не загружает.</p><p class="trace">PRD: News and Links · файлы: main.js, model.js, ui.js.</p></div></details>
+      <details><summary>4. Видишь изменение прогресса</summary><div class="body"><p><strong>Одна выполненная задача из двух → 50%.</strong> Рядом с полосой всегда видны процент и количество выполнено / всего.</p><p>Нет задач → 0%. Все текущие задачи выполнены → 100%. Снятие отметки, добавление или удаление задачи пересчитывает показатель. Целый процент округляется вниз.</p><p class="trace">PRD: Preparation Progress · расчёт: model.js · показ: ui.js.</p></div></details>
+      <details><summary>5. Меняешь язык во время ввода</summary><div class="body"><p>Переключатель EN / RU меняет заголовки, подписи, кнопки и сообщения. Текст, который ты уже ввёл, сохраняется. Названия и имена не переводятся автоматически.</p><p>Ручной язык запоминается даже до первого хакатона. Если выбора ещё нет, используем RU для основного русского языка браузера, иначе EN.</p><p class="trace">PRD: Interface Language · словари: i18n.js · формы и фокус: ui.js.</p></div></details>
+      <details><summary>6. Закрываешь и открываешь снова</summary><div class="body"><p>Завершённые изменения записываются в localStorage. При возвращении по тому же адресу браузер подставляет хакатон, задачи, новости, отметки и язык.</p><p>Незаконченный текст в открытом поле сохраняется при смене языка, но его восстановление после закрытия страницы в эту версию не входит.</p><p class="trace">PRD: Returning to Preparation · сохранение: storage.js · чтение на старте: main.js.</p></div></details>
+    </div>
+  </section>
+
+  <section id="files" aria-labelledby="files-title">
+    <div class="heading"><span>04</span><h2 id="files-title">Где что будет лежать</h2></div>
+    <details><summary>Файлы проекта простыми словами</summary><div class="body"><p>Это план будущих файлов. Создам их я на этапе <strong>5-build</strong>.</p><pre>index.html          Страница и формы
+styles.css          Цвета, размеры, анимации
+src/
+  main.js           Соединяет действия с результатом
+  model.js          Правила данных и расчёт прогресса
+  storage.js        Читает и сохраняет в браузере
+  i18n.js           Подписи EN / RU
+  ui.js             Обновляет экран и поля
+scripts/serve.cjs   Открывает приложение локально
+tests/              Проверки правил и сохранения
+package.json        Команды npm start и npm test
+README.md           Как запустить и проверить
+devpost/            Наши документы и планы</pre><p class="trace">Полное дерево и схема данных находятся в основном spec.md. Локальный сервер будет выдавать только файлы приложения.</p></div></details>
+  </section>
+
+  <section id="design" aria-labelledby="design-title">
+    <div class="heading"><span>05</span><h2 id="design-title">Оформление по твоим референсам</h2></div>
+    <div class="design-grid">
+      <div><h3>Спокойная тёмная основа</h3><p>Светлый читаемый текст, графитовые поверхности и яркий лаймовый акцент на основных действиях и прогрессе. Отступы отделяют блоки, на узком экране всё идёт одной колонкой. Шрифт — системный, с кириллицей.</p><div class="swatches"><span class="swatch"><i style="background:#101416"></i>Фон</span><span class="swatch"><i style="background:#171d20"></i>Панель</span><span class="swatch"><i style="background:#cff56b"></i>Акцент</span></div></div>
+      <div><h3>Короткие анимации при действиях</h3><p>Отклик кнопки, появление новой строки и плавное изменение полосы прогресса. Никакого постоянного движения. Если система просит уменьшить движение, переходы отключаются. Контраст, клавиатуру и длинные подписи проверим при сборке.</p></div>
+    </div>
+    <div class="links"><a href="https://styles.refero.design/" target="_blank" rel="noreferrer">Refero Styles</a><a href="https://skiper-ui.com/" target="_blank" rel="noreferrer">Skiper UI</a><a href="https://www.aisdkagents.com/" target="_blank" rel="noreferrer">AI SDK Agents</a></div>
+  </section>
+
+  <section id="boundaries" aria-labelledby="boundaries-title">
+    <div class="heading"><span>06</span><h2 id="boundaries-title">Пустые списки и возможные ошибки</h2></div>
+    <div class="reveal-grid">
+      <details><summary>Пока нет записей или поле неверно</summary><div class="body"><p>Пустые списки приглашают добавить первую задачу или новость. Пустой список задач показывает 0%.</p><p>Обязательные поля и ссылка проверяются. Понятная подсказка рядом с полем объясняет, что исправить; введённое остаётся.</p></div></details>
+      <details><summary>Браузер не смог сохранить</summary><div class="body"><p>Покажем сообщение на выбранном языке. Уже введённые данные остаются видны в текущем открытии; следующее изменение может повторить сохранение.</p><p>Если сохранённое повреждено, не перезаписываем его автоматически: сообщаем о проблеме и работаем в памяти до закрытия страницы.</p></div></details>
+      <details><summary>Адрес занят или запуск остановлен</summary><div class="body"><p>Если нужный порт занят, я разберусь с ошибкой запуска. Адрес не меняем автоматически, чужую программу не завершаем.</p><p>Для нового открытия страницы локальный запуск должен работать. Задачи после обычного закрытия страницы остаются в памяти браузера.</p></div></details>
+      <details><summary>Что оставляем на будущее</summary><div class="body"><p>Автоматические новости, совместное редактирование через интернет и автоматическое распределение задач остаются на будущее. Сейчас подготовку ведёт один человек в одном браузере.</p><p>Платные инструменты не добавляем. Чат с ИИ внутри приложения в согласованную первую версию не входит; ИИ помогает нам её создать.</p></div></details>
+    </div>
+  </section>
+
+  <section id="checks" aria-labelledby="checks-title">
+    <div class="heading"><span>07</span><h2 id="checks-title">Как проверю результат</h2></div>
+    <p class="intro">Это будущие проверки приложения. Во время создания буду выполнять их постепенно.</p>
+    <ul class="checks"><li>Создание, изменение и удаление записей.</li><li>Процент после отметки и снятия отметки.</li><li>Повторное открытие: данные и язык на месте.</li><li>EN / RU во время ввода: текст остаётся.</li><li>Пустые поля, ссылки и сбои сохранения.</li><li>Узкий экран, клавиатура и уменьшение движения.</li></ul>
+    <div class="note">Для Devpost подготовим публичный GitHub с обязательными документами и видео 1–3 минуты. Демонстрацию можно записать с локального запуска. Публикация работающего сайта в интернете пока не планируется. <a href="https://learn-ai-basics.devpost.com/" target="_blank" rel="noreferrer">Требования организаторов</a>.</div>
+  </section>
+
+  <div class="review"><h3>Технический план согласован</h3><p>Каждая согласованная функция связана с частью приложения и проверкой. Реализация остаётся небольшой: одна страница, встроенное сохранение и локальный запуск. Внешние сервисы для работы приложения не нужны.</p><p>Этап 4-spec завершён. На этапе 5-build сначала определим порядок работы, затем создадим приложение маленькими работающими шагами.</p></div>
+  <footer>Основной документ: <a href="spec.md">spec.md</a> · Поведение: <a href="prd.html">PRD</a> · Границы: <a href="scope.html">scope</a>. Эта страница — наглядный технический план; она не является готовым приложением.</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101416">
+  <meta name="description" content="A little structure for your next hackathon.">
+  <title>Hackathon Copilot</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23101416'/%3E%3Cpath d='m12 26 8-16 8 16-8-4z' fill='%23cff56b'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="m8 24 8-17 8 17-8-5z"/></svg></span><span>Hackathon<span class="brand-second">Copilot</span></span></div>
+      <div class="language-switch" role="group" data-i18n-aria="languageLabel" aria-label="Interface language"><button type="button" data-language="en" aria-pressed="true" lang="en">EN</button><button type="button" data-language="ru" aria-pressed="false" lang="ru">RU</button></div>
+    </header>
+
+    <main id="main">
+      <div id="storage-message" class="notice" role="status" hidden></div>
+      <section id="setup" class="setup" aria-labelledby="setup-title">
+        <div class="intro"><p class="eyebrow"><span class="small-line" aria-hidden="true"></span><span data-i18n="eyebrow">A little structure. A big head start.</span></p><h1 id="setup-title"><span data-i18n="titlePrefix">Build your</span> <span class="accent">MVP</span><span class="title-dot" aria-hidden="true">.</span></h1><p class="intro-copy" data-i18n="intro">Start with a name and a deadline. Give your next idea a place to grow.</p></div>
+        <form id="hackathon-form" class="setup-form" novalidate>
+          <div class="form-heading"><svg class="form-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 21V4m0 0c4-4 8 4 12 0v9c-4 4-8-4-12 0"/></svg><h2 data-i18n="formTitle">Your hackathon</h2><span class="form-caption" data-i18n="formCaption">Let’s make it happen</span></div>
+          <div class="fields">
+            <div class="field"><label for="hackathon-name" data-i18n="nameLabel">Hackathon name</label><input id="hackathon-name" name="name" type="text" autocomplete="off" required aria-describedby="name-error" data-i18n-placeholder="namePlaceholder" placeholder="e.g. Build With AI: Basics"><p id="name-error" class="field-error" hidden></p></div>
+            <div class="field"><label for="hackathon-deadline" data-i18n="dateLabel">Deadline</label><input id="hackathon-deadline" name="deadline" type="date" required max="9999-12-31" aria-describedby="deadline-error"><p id="deadline-error" class="field-error" hidden></p></div>
+          </div>
+          <button class="primary-button" type="submit"><span data-i18n="startButton">Start preparing</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+          <p class="form-note"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="4" width="14" height="10" rx="2"/><path d="M7 17h6m-3-3v3"/></svg><span data-i18n="browserNote">Saved in this browser. Ready when you are.</span></p>
+        </form>
+        <div class="beginning-note"><span class="orbit-mark" aria-hidden="true">↗</span><span data-i18n="bottomNote">One project. A clear starting point.</span><span class="fine-rule" aria-hidden="true"></span></div>
+      </section>
+
+      <section id="overview" class="overview" aria-labelledby="hackathon-title" hidden>
+        <div class="overview-intro"><p class="eyebrow"><span class="small-line" aria-hidden="true"></span><span data-i18n="overviewEyebrow">Your next launch</span></p><h1 id="hackathon-title" tabindex="-1"></h1><p class="intro-copy" data-i18n="overviewIntro">Your preparation, in one place.</p></div>
+        <div class="summary-card"><div class="deadline-block"><span class="data-label" data-i18n="dateLabel">Deadline</span><time id="deadline-value"></time></div><div class="progress-block"><div class="progress-heading"><span class="data-label" data-i18n="progressLabel">Preparation progress</span><strong id="progress-value">0%</strong></div><div class="progress-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-i18n-aria="progressLabel" aria-label="Preparation progress"><span class="progress-fill"></span></div><p id="progress-count" class="progress-count"></p></div></div>
+        <p class="saved-caption"><span class="status-dot" aria-hidden="true"></span><span id="saved-caption"></span></p>
+      </section>
+      <p id="action-message" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+    </main>
+    <footer class="footer"><span data-i18n="footer">A little focus for your next big idea.</span><span class="footer-mark" aria-hidden="true">HC / 01</span></footer>
+  </div>
+  <noscript><p class="notice">Please enable JavaScript to use this app. Для работы приложения включи JavaScript.</p></noscript>
+</body>
+</html>

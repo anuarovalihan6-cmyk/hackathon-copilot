@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Hackathon Copilot — план первой версии</title>
+  <style>
+    :root { --paper:#f5f4ef; --surface:#ffffff; --ink:#192d34; --muted:#52676d; --line:#d7dfdb; --green:#165e4c; --soft:#e7f0e9; --orange:#8a4a22; --sand:#f8ecdd; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:"Segoe UI",Arial,sans-serif; font-size:16px; line-height:1.6; }
+    .page { max-width:1160px; margin:auto; padding:32px 36px 56px; }
+    .top { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-bottom:22px; border-bottom:1px solid var(--line); }
+    .eyebrow { margin:0; font-size:12px; font-weight:650; letter-spacing:.13em; text-transform:uppercase; color:var(--green); }
+    .status { padding:5px 12px; border:1px solid #c6d9cb; border-radius:30px; background:var(--soft); color:var(--green); font-size:13px; white-space:nowrap; }
+    .hero { display:grid; grid-template-columns:minmax(0,1fr) 258px; gap:42px; align-items:center; padding:38px 0 32px; }
+    h1 { margin:9px 0 14px; font-size:clamp(34px,5vw,53px); line-height:1.12; font-weight:650; letter-spacing:-.045em; }
+    .lead { max-width:650px; margin:0; font-size:19px; line-height:1.65; color:var(--muted); }
+    .principle { border-left:3px solid var(--green); padding:4px 0 4px 20px; }
+    .principle strong { display:block; margin:7px 0; font-size:21px; font-weight:600; }
+    .principle span { color:var(--muted); font-size:14px; }
+    .section-label { display:flex; align-items:baseline; gap:12px; margin-bottom:12px; }
+    .section-label .number { color:var(--green); font-size:12px; font-weight:650; letter-spacing:.08em; }
+    h2 { margin:0; font-size:24px; line-height:1.35; letter-spacing:-.025em; font-weight:600; }
+    .section-intro { color:var(--muted); margin:0 0 20px; max-width:780px; }
+    .map { padding:24px 22px 20px; background:var(--surface); border:1px solid var(--line); border-radius:18px; }
+    .map-top { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:10px; }
+    .map-top p { margin:0; color:var(--muted); font-size:14px; }
+    .small-tag { display:inline-block; padding:3px 9px; border-radius:20px; color:var(--green); background:var(--soft); font-size:12px; font-weight:600; white-space:nowrap; }
+    .flow { display:block; width:100%; height:auto; }
+    .flow text { font-family:"Segoe UI",Arial,sans-serif; fill:var(--ink); }
+    .flow .node-title { font-size:18px; font-weight:600; }
+    .flow .node-copy { font-size:14px; fill:var(--muted); }
+    .flow .node-label { font-size:12px; fill:var(--green); font-weight:600; letter-spacing:.05em; }
+    .flow .connector { fill:none; stroke:#6c877b; stroke-width:1.6; }
+    .flow-mobile { display:none; padding:0; margin:20px 0 0; list-style:none; }
+    .flow-mobile li { position:relative; padding:0 0 23px 25px; border-left:2px solid var(--line); margin-left:7px; }
+    .flow-mobile li::before { content:""; position:absolute; width:12px; height:12px; border-radius:50%; background:var(--green); left:-7px; top:6px; }
+    .flow-mobile li:last-child { padding-bottom:0; border-left-color:transparent; }
+    .flow-mobile strong { display:block; font-weight:600; }
+    .flow-mobile span { display:block; color:var(--muted); font-size:14px; margin-top:3px; }
+    .map-caption { margin:8px 0 0; color:var(--muted); font-size:14px; }
+    .bounds { margin-top:36px; }
+    .scope-grid { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:14px; align-items:start; }
+    details { border:1px solid var(--line); background:var(--surface); border-radius:14px; overflow:hidden; }
+    details[open] { box-shadow:0 6px 18px #20362c06; }
+    summary { cursor:pointer; display:flex; gap:12px; justify-content:space-between; align-items:center; padding:19px 20px; font-size:17px; font-weight:600; list-style:none; }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:"+"; color:var(--muted); font-size:22px; line-height:1; font-weight:400; }
+    details[open] > summary::after { content:"−"; }
+    summary:focus-visible, a:focus-visible { outline:3px solid var(--green); outline-offset:3px; }
+    .now summary { background:var(--soft); color:var(--green); }
+    .later summary { background:#eef1f4; }
+    .cut summary { background:var(--sand); color:var(--orange); }
+    .detail-body { padding:0 20px 20px; }
+    details[open] .detail-body { padding-top:15px; }
+    .detail-body ul { padding-left:19px; margin:0; }
+    .detail-body li { margin:0 0 8px; font-size:14px; }
+    .detail-body li:last-child { margin-bottom:0; }
+    .detail-note { margin:14px 0 0; font-size:13px; color:var(--muted); border-top:1px solid var(--line); padding-top:12px; }
+    .proof { margin-top:36px; }
+    .proof-grid { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:28px; padding:24px; border-radius:16px; background:var(--ink); color:#fff; }
+    .proof-list { list-style:none; padding:0; margin:0; counter-reset:proof; }
+    .proof-list li { counter-increment:proof; position:relative; padding:0 0 17px 35px; font-size:15px; color:#edf3f0; }
+    .proof-list li:last-child { padding-bottom:0; }
+    .proof-list li::before { content:counter(proof); position:absolute; left:0; top:1px; width:23px; height:23px; border-radius:50%; background:#35504f; color:#fff; text-align:center; font-size:12px; line-height:23px; }
+    .proof-result { border-left:1px solid #536568; padding-left:26px; align-self:center; }
+    .proof-result .eyebrow { color:#b6dbca; }
+    .proof-result h3 { margin:8px 0; font-size:24px; font-weight:550; line-height:1.35; letter-spacing:-.02em; }
+    .proof-result p:last-child { margin:0; color:#cfdbd9; font-size:14px; }
+    .next { display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:32px; padding-top:24px; border-top:1px solid var(--line); }
+    .next h3 { font-size:15px; font-weight:600; margin:0 0 6px; }
+    .next p { margin:0; font-size:14px; color:var(--muted); }
+    footer { margin-top:28px; color:var(--muted); font-size:12px; }
+    footer a { color:var(--green); text-underline-offset:3px; }
+    @media (max-width:900px) {
+      .flow { display:none; }
+      .flow-mobile { display:block; }
+    }
+    @media (max-width:850px) {
+      .page { padding:24px 24px 40px; }
+      .hero { gap:22px; grid-template-columns:minmax(0,1fr) 210px; }
+      .scope-grid { grid-template-columns:1fr; }
+      .proof-grid { gap:22px; }
+      .flow .node-copy { font-size:15px; }
+    }
+    @media (max-width:640px) {
+      .page { padding:20px 18px 32px; }
+      .top { gap:10px; flex-wrap:wrap; padding-bottom:18px; }
+      .top .eyebrow { font-size:11px; }
+      .status { font-size:12px; }
+      .hero { grid-template-columns:1fr; padding:26px 0; gap:22px; }
+      .lead { font-size:17px; }
+      .principle strong { display:inline; margin-right:9px; font-size:17px; }
+      .principle span { display:block; margin-top:5px; }
+      h2 { font-size:22px; }
+      .map { padding:19px; }
+      .map-top { align-items:flex-start; flex-direction:column; gap:8px; }
+      .flow { display:none; }
+      .flow-mobile { display:block; }
+      .map-caption { margin-top:20px; padding-top:16px; border-top:1px solid var(--line); }
+      .proof-grid { grid-template-columns:1fr; padding:21px; }
+      .proof-result { border-left:0; border-top:1px solid #536568; padding:19px 0 0; }
+      .next { grid-template-columns:1fr; gap:18px; }
+    }
+    @media print {
+      body { background:#fff; }
+      .page { max-width:none; padding:0; }
+      .scope-grid { grid-template-columns:1fr; }
+      details:not([open]) > .detail-body { display:block; }
+      .map, .proof-grid, details { break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <p class="eyebrow">Devpost Learn · 2-scope</p>
+    <span class="status">Согласовано · первая версия</span>
+  </header>
+
+  <section class="hero" aria-labelledby="title">
+    <div>
+      <p class="eyebrow">План первой версии</p>
+      <h1 id="title">Hackathon Copilot</h1>
+      <p class="lead">Подготовка к хакатону в одном месте: ты собираешь важные новости, назначаешь задачи участникам и видишь прогресс подготовки.</p>
+    </div>
+    <aside class="principle" aria-label="Границы первой версии">
+      <strong>Одна страница.</strong>
+      <strong>Один хакатон.</strong>
+      <strong>Один ведущий.</strong>
+      <span>Ты организуешь подготовку команды на своём компьютере.</span>
+    </aside>
+  </section>
+
+  <section aria-labelledby="loop-title">
+    <div class="section-label"><span class="number">01</span><h2 id="loop-title">Как всё связано</h2></div>
+    <p class="section-intro">Ты добавляешь информацию, решаешь, какие действия нужны команде, и отмечаешь результат.</p>
+    <div class="map">
+      <div class="map-top"><p>Главный сценарий подготовки</p><span class="small-tag">Решения принимаешь ты</span></div>
+      <svg class="flow" viewBox="0 0 1020 340" role="img" aria-labelledby="flow-title flow-desc">
+        <title id="flow-title">Путь от участника к сохранённой подготовке</title>
+        <desc id="flow-desc">Один человек ведёт хакатон и добавляет новости вручную. Затем создаёт задачи, назначает ответственных и отмечает выполнение. Прогресс обновляется. После повторного открытия браузера информация остаётся, и подготовка продолжается.</desc>
+        <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6c877b"/></marker></defs>
+        <path class="connector" d="M 174 110 H 213" marker-end="url(#arrow)"/>
+        <path class="connector" d="M 442 110 H 481" marker-end="url(#arrow)"/>
+        <path class="connector" d="M 710 110 H 749" marker-end="url(#arrow)"/>
+        <rect x="2" y="48" width="172" height="125" rx="15" fill="#192d34"/>
+        <text x="22" y="81" style="fill:#b6dbca;font-size:12px;letter-spacing:.05em">УЧАСТНИК</text>
+        <text x="22" y="112" style="fill:#ffffff;font-size:21px;font-weight:600">Ты</text>
+        <text x="22" y="143" style="fill:#e2eeea;font-size:14px">Ведёшь подготовку</text>
+        <rect x="216" y="48" width="226" height="125" rx="15" fill="#f0f5f0" stroke="#d7dfdb"/>
+        <text x="234" y="77" class="node-label">СОБИРАЕШЬ</text>
+        <text x="234" y="106" class="node-title">Хакатон и новости</text>
+        <text x="234" y="134" class="node-copy">Название и дедлайн</text>
+        <text x="234" y="155" class="node-copy">Обновления со ссылками</text>
+        <rect x="484" y="48" width="226" height="125" rx="15" fill="#f0f5f0" stroke="#d7dfdb"/>
+        <text x="502" y="77" class="node-label">ОРГАНИЗУЕШЬ</text>
+        <text x="502" y="106" class="node-title">Задачи команды</text>
+        <text x="502" y="134" class="node-copy">Кто за что отвечает</text>
+        <text x="502" y="155" class="node-copy">Что уже выполнено</text>
+        <rect x="752" y="48" width="266" height="125" rx="15" fill="#e7f0e9" stroke="#c6d9cb"/>
+        <text x="772" y="77" class="node-label">НАБЛЮДАЕШЬ</text>
+        <text x="772" y="106" class="node-title">Прогресс подготовки</text>
+        <text x="772" y="134" class="node-copy">Зависит от выполненных задач</text>
+        <text x="772" y="155" class="node-copy">Помогает увидеть оставшееся</text>
+        <path class="connector" d="M 885 173 V 226" marker-end="url(#arrow)"/>
+        <rect x="216" y="229" width="802" height="79" rx="13" fill="#f5f4ef"/>
+        <text x="237" y="260" class="node-title">Открываешь снова — продолжаешь с того же места</text>
+        <text x="237" y="287" class="node-copy">Новости, задачи, ответственные и отметки сохраняются в том же браузере.</text>
+        <path class="connector" d="M 216 268 H 193 V 192 H 329 V 176" marker-end="url(#arrow)"/>
+      </svg>
+      <ol class="flow-mobile" aria-label="Сценарий подготовки">
+        <li><strong>Ты ведёшь подготовку</strong><span>Один человек управляет страницей команды.</span></li>
+        <li><strong>Собираешь хакатон и новости</strong><span>Название, дедлайн и вручную добавленные обновления со ссылками.</span></li>
+        <li><strong>Организуешь задачи команды</strong><span>Добавляешь задачи, выбираешь ответственных, отмечаешь выполнение.</span></li>
+        <li><strong>Видишь прогресс</strong><span>Он меняется вместе с выполнением задач.</span></li>
+        <li><strong>Открываешь снова и продолжаешь</strong><span>В том же браузере новости, задачи и отметки остаются на месте.</span></li>
+      </ol>
+      <p class="map-caption">Все действия выполняются в одном браузере на твоём компьютере. Новости и ответственных ты добавляешь вручную.</p>
+    </div>
+  </section>
+
+  <section class="bounds" aria-labelledby="bounds-title">
+    <div class="section-label"><span class="number">02</span><h2 id="bounds-title">Что входит в первую версию</h2></div>
+    <p class="section-intro">Раскрывай блоки, чтобы посмотреть границы проекта и идеи дальнейшего развития.</p>
+    <div class="scope-grid">
+      <details class="now" open>
+        <summary>В первой версии</summary>
+        <div class="detail-body">
+          <ul>
+            <li>Один хакатон: название и дедлайн.</li>
+            <li>Новости и полезные обновления со ссылками.</li>
+            <li>Задачи с ответственными участниками.</li>
+            <li>Отметки выполнения и видимый прогресс.</li>
+            <li>Сохранение данных между открытиями браузера.</li>
+            <li>Переключение интерфейса EN / RU с сохранением выбранного языка.</li>
+          </ul>
+          <p class="detail-note">Ты управляешь всей страницей и вручную назначаешь ответственных.</p>
+        </div>
+      </details>
+      <details class="later">
+        <summary>Позже</summary>
+        <div class="detail-body">
+          <ul>
+            <li>Автоматическое получение свежих новостей.</li>
+            <li>Совместное редактирование через интернет.</li>
+            <li>Автоматическое распределение работы.</li>
+          </ul>
+          <p class="detail-note">Эти возможности потребуют дополнительных решений. К ним можно вернуться после работающей первой версии.</p>
+        </div>
+      </details>
+      <details class="cut">
+        <summary>Исключаем</summary>
+        <div class="detail-body">
+          <ul><li>Платные инструменты и сервисы.</li></ul>
+          <p class="detail-note">Это твоё ограничение для проекта. Для прохождения первых этапов дополнительные покупки не предусмотрены.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="proof" aria-labelledby="proof-title">
+    <div class="section-label"><span class="number">03</span><h2 id="proof-title">Как поймём, что всё работает</h2></div>
+    <p class="section-intro">Короткий сценарий проверки, который затем можно показать в демонстрационном видео.</p>
+    <div class="proof-grid">
+      <ol class="proof-list">
+        <li>Добавляем название хакатона и дедлайн.</li>
+        <li>Сохраняем новость со ссылкой и создаём задачу с ответственным.</li>
+        <li>Отмечаем задачу выполненной и видим изменение прогресса.</li>
+        <li>Закрываем и открываем приложение в том же браузере.</li>
+      </ol>
+      <div class="proof-result">
+        <p class="eyebrow">Результат проверки</p>
+        <h3>Подготовка сохранилась.</h3>
+        <p>Название, дедлайн, новости, задачи, ответственные, отметки и выбранный язык на месте. Можно продолжать.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="next" aria-label="Контекст этого плана">
+    <div><h3>Зачем создаём</h3><p>Получить полезный первый проект и разобраться в работе с ИИ маленькими шагами.</p></div>
+    <div><h3>Подробности продукта</h3><p>Расположение элементов и поведение описаны в PRD. Выбрано тёмное оформление с яркими акцентами и плавными анимациями.</p></div>
+  </section>
+  <footer>Это наглядный план первой версии. Основной документ: <a href="scope.md">scope.md</a>. Поведение приложения: <a href="prd.html">наглядный PRD</a>.</footer>
+</main>
+</body>
+</html>
