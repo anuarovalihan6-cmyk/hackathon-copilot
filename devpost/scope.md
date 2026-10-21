@@ -5,6 +5,8 @@ status: approved
 
 # Hackathon Copilot
 
+[English version for reviewers](scope.en.md).
+
 Одна страница подготовки к конкретному хакатону: дедлайн, важные новости, задачи команды и прогресс в одном месте.
 
 ## The Unique Kernel

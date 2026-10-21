@@ -5,6 +5,8 @@ status: approved
 
 # Hackathon Copilot — Product Requirements
 
+[English version for reviewers](prd.en.md).
+
 Одна страница для участника, который ведёт подготовку своей команды к одному хакатону.
 Основание: `scope.md > Who It's For`, `scope.md > The POC Boundary`.
 

@@ -5,6 +5,8 @@ status: approved
 
 # Hackathon Copilot — Technical Spec
 
+[English version for reviewers](spec.en.md).
+
 Полный технический план согласован пользователем после просмотра наглядной версии ответом «давай продалжай работай». Этап `4-spec` завершён; следующий этап — порядок работ и реализация в `5-build`. Принятые решения и выведенные из них детали реализации разделены ниже. Наглядная версия — [spec.html](spec.html).
 
 ## How This Works, In Plain Language
