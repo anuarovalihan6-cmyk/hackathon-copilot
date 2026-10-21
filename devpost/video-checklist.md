@@ -42,4 +42,22 @@ Operate the recording controls on the computer being captured, then review the s
 - Review the whole file: readable application text, complete journey, final duration below three minutes, and required English content or translation.
 - Upload the final video to YouTube or Vimeo and make it publicly visible as required by the rules. Check the final link without signing in.
 - Add the real video URL to `spec.md > Sharing Instructions` and mark only completed steps in `checklist.md`.
-- The final recording and URL have not yet been produced or verified.
+- A local MP4 has now been produced and checked; the public video URL is still pending.
+
+## Recorded result — 22 October 2026
+
+`Hackathon-Copilot-demo.mp4` is saved in this task's local outputs, outside the source repository. It is exactly 120 seconds, 1920×1080, H.264 at 30 output frames per second, with AAC stereo audio. Seven actual application clips were captured through the supported browser screenshot API, at approximately eight samples per second, then edited with fades and technical English labels. The quiet instrumental music is procedurally composed without external samples; there is no narration.
+
+| Final time | Recorded action |
+| --- | --- |
+| 0:00–0:06 | Project title and interface feature labels. |
+| 0:06–0:21 | Create the hackathon and deadline. |
+| 0:21–0:43 | Add two tasks, assigned to Alex and Jordan. |
+| 0:43–0:57 | Save a manually entered update and its official source link. |
+| 0:57–1:11 | Complete one task and show 50% progress. |
+| 1:11–1:23 | Switch EN → RU → EN. |
+| 1:23–1:37 | Reload and show the retained task records and completion. |
+| 1:37–1:52 | Add the six starter tasks to the existing two. |
+| 1:52–2:00 | Project name, repository URL and technical stack. |
+
+All 3,600 output video frames and the audio decoded successfully. Representative scenes and an extracted final-video frame were visually inspected. The separate demo origin kept the user's main preparation records untouched. Application source code was not modified for recording. The MP4 has not been uploaded to YouTube/Vimeo, and no public access or final submission is claimed.
