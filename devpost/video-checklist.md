@@ -42,7 +42,7 @@ Operate the recording controls on the computer being captured, then review the s
 - Review the whole file: readable application text, complete journey, final duration below three minutes, and required English content or translation.
 - Upload the final video to YouTube or Vimeo and make it publicly visible as required by the rules. Check the final link without signing in.
 - Add the real video URL to `spec.md > Sharing Instructions` and mark only completed steps in `checklist.md`.
-- A local MP4 has now been produced and checked; the public video URL is still pending.
+- The MP4 has been produced, checked and published on YouTube; its URL has been saved in the Devpost draft.
 
 ## Recorded result — 22 October 2026
 
@@ -60,4 +60,13 @@ Operate the recording controls on the computer being captured, then review the s
 | 1:37–1:52 | Add the six starter tasks to the existing two. |
 | 1:52–2:00 | Project name, repository URL and technical stack. |
 
-All 3,600 output video frames and the audio decoded successfully. Representative scenes and an extracted final-video frame were visually inspected. The separate demo origin kept the user's main preparation records untouched. Application source code was not modified for recording. The MP4 has not been uploaded to YouTube/Vimeo, and no public access or final submission is claimed.
+All 3,600 output video frames and the audio decoded successfully. Representative scenes and an extracted final-video frame were visually inspected. The separate demo origin kept the user's main preparation records untouched. Application source code was not modified for recording.
+
+## Published result
+
+- Public video: [Hackathon Copilot](https://youtu.be/GnGB1JhI_1g).
+- The user authorized the upload, accepted the YouTube terms and separately confirmed the audience setting. Public visibility was selected, and YouTube displayed its publication confirmation.
+- YouTube's preliminary copyright check reported no issues. The uploaded file contains the quiet original instrumental music and no voiceover.
+- An anonymous request to YouTube's public oEmbed API returned the correct title, channel and embed HTML. Browser playback was verified with the player at 57 seconds, 120 seconds total, audio unmuted and media ready. The web fetch service initially returned a cache miss; the official oEmbed endpoint and browser verification succeeded.
+- The video URL and repository URL were saved in the existing Devpost draft. Reopening Project details confirmed both persisted values. The learner's name, description and personal answers were not rewritten.
+- The entry remains a draft. Remaining form text, personal responses, required license URL and final submission are separate unfinished work.
