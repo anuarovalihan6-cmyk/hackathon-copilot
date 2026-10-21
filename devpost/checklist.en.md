@@ -41,7 +41,9 @@ The reported language issue followed this path: language-switch handler in `main
 - [x] Public two-minute working demo: https://youtu.be/GnGB1JhI_1g. Original quiet music and English captions are included. Publication, anonymous oEmbed, and browser playback were checked.
 - [x] MIT license added with explicit user approval on October 22, 2026.
 - [x] English run instructions and English versions of scope, PRD, and spec added alongside the original approved records.
-- [ ] Complete the remaining personal Devpost survey answers and eligibility/terms confirmations.
-- [ ] Final Devpost submission. Saving draft fields is not final submission.
+- [x] Required Devpost survey and final submission steps completed, as confirmed by the site's submission receipt.
+- [x] Final Devpost submission: on October 22, 2026, the project page displayed **Project submitted!** and **Submitted to — Build With AI: Basics**.
+
+Submission was confirmed directly on [Devpost](https://devpost.com/software/hackathoncopilot). The agent saved the survey choices supplied by the user. The final account confirmations/submission happened outside the agent's UI actions; no final terms-acceptance or Submit action was issued by the agent. This records successful submission, not a judging result.
 
 The app remains one hackathon and one local operator. A proposed later news-to-task button was not approved and was not implemented. No live hosting, automatic news, automatic assignment, or paid service was added.

@@ -56,4 +56,4 @@ The built-in Node.js runner passed 28 tests covering dates, schema validation, t
 - [English build record and code map](devpost/checklist.en.md): implementation, review, and checks.
 - [Design research](devpost/design-research.md) and [visual code map](devpost/app-map.html): original Russian reference material. English design decisions and code paths are covered in the spec and build record above.
 
-The Skill Pack was installed before application code; the scope, PRD, and spec were approved before implementation. Their English counterparts preserve those decisions. The private learner profile and local `.env` files are excluded from Git. The code and video are public; the Devpost entry is still a draft.
+The Skill Pack was installed before application code; the scope, PRD, and spec were approved before implementation. Their English counterparts preserve those decisions. The private learner profile and local `.env` files are excluded from Git. The code and video are public. On October 22, 2026, Devpost confirmed **Project submitted!** for Build With AI: Basics. [Project page](https://devpost.com/software/hackathoncopilot).

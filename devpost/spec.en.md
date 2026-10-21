@@ -55,7 +55,7 @@ Planned demo: create a hackathon, save an update, add two tasks, assign a person
 - The user explicitly authorized publishing the code. The original publication retained history; anonymous GitHub API and browser checks verified public access, required files, and matching file hashes. Private learner context, credentials, and local screenshots of user data were excluded.
 - Public two-minute demo: https://youtu.be/GnGB1JhI_1g. It shows hackathon setup, tasks and assignees, a manual update, 50% progress, EN/RU, reload persistence, and the starter plan. The file is 1920×1080 H.264/AAC with English technical captions and original quiet background music, without narration. Full video/audio decoding completed without errors and representative frames were inspected.
 - YouTube confirmed public publication and no copyright issue in its preliminary check. Anonymous official oEmbed returned the video's metadata and embed HTML; browser playback confirmed 120 seconds with audio enabled.
-- The GitHub/video links are saved in the existing Devpost draft and were checked after reopening. On October 22, 2026, the user approved MIT publication; [LICENSE](../LICENSE) is present on `main`. The draft's description, pitch, gallery, and license link are being completed. The entry has not been finally submitted, and no separate live website has been deployed.
+- The GitHub/video links, description, pitch, three screenshots, thumbnail, and license URL were saved in Devpost and checked. On October 22, 2026, the user approved MIT publication; [LICENSE](../LICENSE) is present on `main`. After the survey was filled from the user's answers, Devpost displayed **Project submitted!** and **Submitted to — Build With AI: Basics**. [Submitted project](https://devpost.com/software/hackathoncopilot). No separate live website has been deployed.
 
 ## Look and Feel
 
@@ -195,4 +195,4 @@ The agent proposed the JSON snapshot, file modules, fixed local origin, precise 
 
 ### Open Issues
 
-No material implementation question remained when the spec was approved. Live hosting was not selected. `5-build` recorded and completed the implementation order; shipping still requires the remaining personal survey answers and final user submission/eligibility confirmations.
+No material implementation question remained when the spec was approved. Live hosting was not selected. `5-build` recorded and completed the implementation order. The public repository, demo video, license, English materials, and Devpost submission are complete; the site's submission receipt was observed on October 22, 2026.
